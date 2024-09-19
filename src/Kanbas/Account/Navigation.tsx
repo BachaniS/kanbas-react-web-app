@@ -5,6 +5,8 @@ export default function AccountNavigation() {
       <Link to={`/Kanbas/Account/Signin`}> Signin </Link> <br />
       <Link to={`/Kanbas/Account/Signup`}> Signup </Link> <br />
       <Link to={`/Kanbas/Account/Profile`}> Profile </Link> <br />
+      <br />
+      <h1></h1>
     </div>
   );
 }

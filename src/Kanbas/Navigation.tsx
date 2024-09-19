@@ -30,6 +30,19 @@ export default function KanbasNavigation() {
         Labs
       </Link>
       <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <a href="https://landing-page-somesh-bachani.netlify.app/" id="wd-landing-link" target="_blank">
+        Return to Landing Page
+      </a>
+
     </div>
   );
 }
