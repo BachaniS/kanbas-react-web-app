@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 export default function KanbasNavigation() {
   return (
     <div id="wd-kanbas-navigation">
-      <a href="https://www.northeastern.edu/" id="wd-neu-link" target="_blank">
+      <a href="https://www.northeastern.edu/" id="wd-neu-link" target="_blank" rel="noreferrer">
         Northeastern
       </a>
       <br />
@@ -39,10 +39,9 @@ export default function KanbasNavigation() {
       <br />
       <br />
       <br />
-      <a href="https://landing-page-somesh-bachani.netlify.app/" id="wd-landing-link" target="_blank">
+      <a href="https://landing-page-somesh-bachani.netlify.app/" id="wd-landing-link" target="_blank" rel="noreferrer">
         Return to Landing Page
       </a>
-
     </div>
   );
 }
