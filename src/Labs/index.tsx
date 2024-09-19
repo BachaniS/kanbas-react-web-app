@@ -10,7 +10,7 @@ export default function Labs() {
     <div>
       <h1>Somesh Bachani</h1>
       <h1>
-      <Link id="wd-a" to="/Labs">
+        <Link id="wd-a" to="/Labs">
           Labs
         </Link>
       </h1>
