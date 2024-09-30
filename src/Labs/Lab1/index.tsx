@@ -152,8 +152,10 @@ export default function Lab1() {
         </textarea>
         <h5 id="wd-buttons">Buttons</h5>
         <button id="wd-all-good" onClick={() => alert("Life is Good!")}>
-          Hello World!
+          Hello World!!
         </button>
+        <h5>File upload</h5>
+        <input type="file" id="wd-file-upload" />
         <h5 id="wd-radio-buttons">Radio buttons</h5>
         <label>Favorite movie genre:</label>
         <br />
