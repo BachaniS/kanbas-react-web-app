@@ -40,7 +40,7 @@ export default function KanbasNavigation() {
       <br />
       <br />
       <a href="https://landing-page-somesh-bachani.netlify.app/" id="wd-landing-link" target="_blank" rel="noreferrer">
-        Return to Landing Page
+        Return to Landing Page      
       </a>
     </div>
   );
