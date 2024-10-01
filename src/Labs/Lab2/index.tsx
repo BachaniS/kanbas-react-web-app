@@ -1,7 +1,20 @@
 import "./index.css";
+import ForegroundColors from "./ForegroundColors";
+import BackgroundColors from "./BackgroundColors";
+import Borders from "./Borders";
+import Padding from "./Padding";
+import Margins from "./Margins";
+import Corners from "./Corners";
+import Dimensions from "./Dimensions";
+import Positions from "./Positions";
+import Zindex from "./Zindex";
+import Float from "./Float";
+import GridLayout from "./GridLayout";
+import Flex from "./Flex";
+import ReactIconsSampler from "./ReactIcons";
 export default function Lab2() {
   return (
-    <div id="wd-lab2">
+    <div className="container">
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>…
       <div id="wd-css-id-selectors">
@@ -48,14 +61,19 @@ export default function Lab2() {
           </div>
         </div>
       </div>
-      <div id="wd-css-colors">
-        <h2>Colors</h2>
-        <h3 className="wd-fg-color-blue">Foreground color</h3>
-        <p className="wd-fg-color-red">
-          The text in this paragraph is red but
-          <span className="wd-fg-color-green">this text is green</span>
-        </p>
-      </div>
+      <ForegroundColors />
+      <BackgroundColors />
+      <Borders />
+      <Padding />
+      <Margins />
+      <Corners />
+      <Dimensions />
+      <Positions />
+      <Zindex />
+      <Float />
+      <GridLayout />
+      <Flex />
+      <ReactIconsSampler />
     </div>
   );
 }
