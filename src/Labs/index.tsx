@@ -14,7 +14,6 @@ export default function Labs() {
           Labs
         </Link>
       </h1>
-      
       <TOC />
       <Routes>
         <Route path="Lab1" element={<Lab1 />} />

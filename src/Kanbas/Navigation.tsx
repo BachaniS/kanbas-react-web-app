@@ -79,7 +79,7 @@ export default function KanbasNavigation() {
         Labs{" "}
       </Link>
       <Link
-        to="https://landing-page-somesh-bachani.netlify.app/"
+        to="https://a2--landing-page-somesh-bachani.netlify.app/"
         target="_blank"
         rel="noreferrer"
         id="wd-landing-page-link"
