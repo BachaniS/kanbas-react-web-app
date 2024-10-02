@@ -3,6 +3,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
 export default function KanbasNavigation() {
   return (
     <div
@@ -77,24 +78,17 @@ export default function KanbasNavigation() {
         <br />
         Labs{" "}
       </Link>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <a
-        href="https://landing-page-somesh-bachani.netlify.app/"
-        id="wd-landing-link"
+      <Link
+        to="https://landing-page-somesh-bachani.netlify.app/"
         target="_blank"
         rel="noreferrer"
+        id="wd-landing-page-link"
+        className="list-group-item text-white bg-black text-center border-0"
       >
-        Return to Landing Page
-      </a>
+        <FaHome className="fs-1 text-danger" />
+        <br />
+        Landing Page{" "}
+      </Link>
     </div>
   );
 }
