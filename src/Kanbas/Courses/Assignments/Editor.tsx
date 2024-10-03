@@ -41,17 +41,17 @@ export default function AssignmentEditor() {
                         </textarea>
                     </div>
                 </div>
-
+                
                 <div className="row mb-3">
                     <label htmlFor="points" className="col-sm-2 col-form-label">Points</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <input type="number" id="points" name="points" className="form-control" value="100" readOnly />
                     </div>
                 </div>
 
                 <div className="row mb-3">
                     <label htmlFor="assignmentGroup" className="col-sm-2 col-form-label">Assignment Group</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <select id="assignmentGroup" name="assignmentGroup" className="form-select">
                             <option value="assignments">Assignments</option>
                         </select>
@@ -60,7 +60,7 @@ export default function AssignmentEditor() {
 
                 <div className="row mb-3">
                     <label htmlFor="displayGradeAs" className="col-sm-2 col-form-label">Display Grade As</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <select id="displayGradeAs" name="displayGradeAs" className="form-select">
                             <option value="percentage">Percentage</option>
                         </select>
@@ -69,7 +69,7 @@ export default function AssignmentEditor() {
 
                 <div className="row mb-3">
                     <label htmlFor="submissionType" className="col-sm-2 col-form-label">Submission Type</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <select id="submissionType" name="submissionType" className="form-select">
                             <option value="online">Online</option>
                         </select>
@@ -78,7 +78,7 @@ export default function AssignmentEditor() {
 
                 <div className="row mb-3">
                     <label className="col-sm-2 col-form-label">Online Entry Options</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <div className="form-check">
                             <input
                                 type="checkbox"
@@ -134,7 +134,7 @@ export default function AssignmentEditor() {
 
                 <div className="row mb-3">
                     <label htmlFor="assignTo" className="col-sm-2 col-form-label">Assign To</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <input
                             type="text"
                             id="assignTo"
@@ -148,27 +148,30 @@ export default function AssignmentEditor() {
 
                 <div className="row mb-3">
                     <label htmlFor="dueDate" className="col-sm-2 col-form-label">Due Date</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <input type="date" id="dueDate" name="dueDate" className="form-control" value="2024-05-13" />
                     </div>
                 </div>
 
                 <div className="row mb-3">
                     <label htmlFor="availableFrom" className="col-sm-2 col-form-label">Available From</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <input type="date" id="availableFrom" name="availableFrom" className="form-control" value="2024-05-06" />
                     </div>
                 </div>
 
                 <div className="row mb-3">
                     <label htmlFor="availableUntil" className="col-sm-2 col-form-label">Available Until</label>
-                    <div className="col-sm-10">
+                    <div className="col-sm-8">
                         <input type="date" id="availableUntil" name="availableUntil" className="form-control" value="2024-05-20" />
                     </div>
                 </div>
+                <br />
+                <div className="col-sm-10">
                 <div className="float-end">
                     <button type="button" className="btn btn-secondary">Cancel</button>
                     <button type="button" className="btn btn-danger">Save</button>
+                </div>
                 </div>
             </form>
         </div>
