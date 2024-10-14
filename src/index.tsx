@@ -14,7 +14,9 @@ root.render(
     <App />
   </React.StrictMode>
 );
-const home = ReactDOM.createRoot(document.getElementById("home") as HTMLElement);
+const home = ReactDOM.createRoot(
+  document.getElementById("home") as HTMLElement
+);
 home.render(
   <React.StrictMode>
     <App />
