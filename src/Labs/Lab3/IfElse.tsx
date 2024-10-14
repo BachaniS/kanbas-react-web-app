@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export default function IfElse() {
 let true1 = true, false1 = false;
 return(
