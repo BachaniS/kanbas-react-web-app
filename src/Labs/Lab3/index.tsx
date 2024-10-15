@@ -24,6 +24,8 @@ import Spreading from "./Spreading";
 import Destructing from "./Destructing";
 import FunctionDestructing from "./FuntionDestructing";
 import DestructingImports from "./DestructingImports";
+import Classes from "./Classes";
+import Add from "./Add";
 
 export default function Lab3() {
     return (
@@ -55,6 +57,8 @@ export default function Lab3() {
         <Destructing />
         <FunctionDestructing />
         <DestructingImports />
+        <Classes />
+        <Add a={5} b={7} />
       </div>
     )
   }
