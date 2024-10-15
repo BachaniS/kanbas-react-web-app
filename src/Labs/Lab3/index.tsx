@@ -26,6 +26,8 @@ import FunctionDestructing from "./FuntionDestructing";
 import DestructingImports from "./DestructingImports";
 import Classes from "./Classes";
 import Add from "./Add";
+import Square from "./Square";
+import HighLight from "./Highlight";
 
 export default function Lab3() {
     return (
@@ -59,6 +61,13 @@ export default function Lab3() {
         <DestructingImports />
         <Classes />
         <Add a={5} b={7} />
+        <h4>Square of 4</h4>
+        <Square>4</Square>
+        <hr />
+        <HighLight>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
+        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
+        </HighLight>
       </div>
     )
   }
