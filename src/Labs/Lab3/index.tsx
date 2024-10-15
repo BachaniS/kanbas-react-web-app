@@ -27,7 +27,7 @@ import DestructingImports from "./DestructingImports";
 import Classes from "./Classes";
 import Add from "./Add";
 import Square from "./Square";
-import HighLight from "./Highlight";
+import HighLight from "./HighLight";
 
 export default function Lab3() {
     return (
