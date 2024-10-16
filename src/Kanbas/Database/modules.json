@@ -232,8 +232,7 @@
         "module": "M303"
       }
     ]
-  }
-  ,
+  },
   {
     "_id": "M401",
     "name": "Introduction to Organic Chemistry",
@@ -545,8 +544,7 @@
         "module": "M902"
       }
     ]
-  }
-  ,
+  },
   {
     "_id": "M1001",
     "name": "Introduction to Democratic Education",
@@ -624,8 +622,7 @@
         "module": "M1003"
       }
     ]
-  }
-  ,
+  },
   {
     "_id": "M1101",
     "name": "Introduction to Philosophy of Independence",
@@ -703,8 +700,7 @@
         "module": "M1103"
       }
     ]
-  }
-  ,
+  },
   {
     "_id": "M1201",
     "name": "Innovations in Early 19th Century Education",
@@ -860,8 +856,7 @@
         "module": "M1701"
       }
     ]
-  }
-  ,
+  },
   {
     "_id": "M1801",
     "name": "Introduction to Islamic Esotericism",
