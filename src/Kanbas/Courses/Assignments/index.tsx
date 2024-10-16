@@ -27,7 +27,7 @@ export default function Assignments() {
                                     A1
                                 </a>
                                 <br />
-                                <span className="text-red">Multiple Modules</span> | <b>Not available until</b> May 6 at 12:00am |<br /> 
+                                <span style={{ color: 'red' }}> Multiple Modules </span> | <b>Not available until</b> May 6 at 12:00am |<br /> 
                                 <b>Due</b> May 13 at 11:59pm | 100 points
                             </div>
                             <LessonControlButtons />
@@ -40,7 +40,7 @@ export default function Assignments() {
                                     A2
                                 </a>
                                 <br />
-                                <span className="text-red">Multiple Modules</span> | <b>Not available until</b> May 13 at 12:00am |<br /> 
+                                <span style={{ color: 'red' }}> Multiple Modules </span>| <b>Not available until</b> May 13 at 12:00am |<br /> 
                                 <b>Due</b> May 20 at 11:59pm | 100 points
                             </div>
                             <LessonControlButtons />
@@ -53,7 +53,7 @@ export default function Assignments() {
                                     A3
                                 </a>
                                 <br />
-                                <span className="text-red">Multiple Modules</span> | <b>Not available until</b> May 20 at 12:00am |<br /> 
+                                <span style={{ color: 'red' }}> Multiple Modules </span> | <b>Not available until</b> May 20 at 12:00am |<br /> 
                                 <b>Due</b> May 27 at 11:59pm | 100 points
                             </div>
                             <LessonControlButtons />
