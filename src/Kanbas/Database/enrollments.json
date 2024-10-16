@@ -1,0 +1,22 @@
+[
+{ "_id": "1", "user": "Naruto", "course": "RS103" },
+{ "_id": "2", "user": "Sasuke", "course": "RS103" },
+{ "_id": "3", "user": "Sakura", "course": "RS103" },
+{ "_id": "4", "user": "Kakashi", "course": "RS103" },
+{ "_id": "5", "user": "Hinata", "course": "RS104" },
+{ "_id": "6", "user": "Shikamaru", "course": "RS104" },
+{ "_id": "7", "user": "Ino", "course": "RS104" },
+{ "_id": "8", "user": "Choji", "course": "RS104" },
+{ "_id": "9", "user": "Gaara", "course": "RS105" },
+{ "_id": "10", "user": "Rock Lee", "course": "RS105" },
+{ "_id": "11", "user": "Neji", "course": "RS105" },
+{ "_id": "12", "user": "Tenten", "course": "RS105" },
+{ "_id": "13", "user": "Jiraiya", "course": "RS106" },
+{ "_id": "14", "user": "Tsunade", "course": "RS106" },
+{ "_id": "15", "user": "Orochimaru", "course": "RS106" },
+{ "_id": "16", "user": "Itachi", "course": "RS106" },
+{ "_id": "17", "user": "Madara", "course": "RS107" },
+{ "_id": "18", "user": "Obito", "course": "RS107" },
+{ "_id": "19", "user": "Minato", "course": "RS107" },
+{ "_id": "20", "user": "Kushina", "course": "RS107" }
+]

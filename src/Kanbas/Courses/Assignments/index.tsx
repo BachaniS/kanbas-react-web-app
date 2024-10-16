@@ -33,8 +33,8 @@ export default function Assignments() {
                                         {assignment.title}
                                     </a>
                                     <br />
-                                    <span style={{ color: 'red' }}> Multiple Modules </span> | <b>Not available until</b> May 6 at 12:00am |<br /> 
-                                    <b>Due</b> May 13 at 11:59pm | 100 points
+                                    <span style={{ color: 'red' }}> Multiple Modules </span> | <b>Not available until</b> {assignment.availableFrom} |<br /> 
+                                    <b>Due</b> {assignment.availableUntil} | {assignment.points} points
                                 </div>
                                 <LessonControlButtons />
                             </li>
