@@ -1,6 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useParams, Link } from 'react-router-dom';
+import { assignments } from '../../Database';
 
 export default function AssignmentEditor() {
+    const { cid, aid } = useParams();
+    const assignment = assignments.find(a => a._id === aid);
+
+    if (!assignment) {
+        return <div>Assignment not found</div>;
+    }
+
     return (
         <div className="container mt-4">
             <form id="assignmentForm">
@@ -8,21 +17,22 @@ export default function AssignmentEditor() {
                     <label htmlFor="assignmentName" className="col-sm-2 col-form-label">
                         <b>Assignment Name</b>
                     </label>
-                </div>
-                <div className="row mb-3">
                     <div className="col-sm-10">
                         <input
                             type="text"
                             id="assignmentName"
                             name="assignmentName"
                             className="form-control"
-                            value="A1"
+                            value={assignment.title}
                             readOnly
                         />
                     </div>
                 </div>
 
                 <div className="row mb-3">
+                    <label htmlFor="description" className="col-sm-2 col-form-label">
+                        <b>Description</b>
+                    </label>
                     <div className="col-sm-10">
                         <textarea
                             id="description"
@@ -32,20 +42,15 @@ export default function AssignmentEditor() {
                             rows={15}
                             readOnly
                         >
-                            The assignment is available online. Submit a link to the landing page
-                            of your Web application running on Netlify. The landing page should
-                            include the following: - Your full name and section - Links to each of
-                            the lab assignments - Link to the Kanbas application - Links to all
-                            relevant source code repositories - The Kanbas application should
-                            include a link to navigate back to the landing page.
+                            {assignment.description}
                         </textarea>
                     </div>
                 </div>
-                
+
                 <div className="row mb-3">
                     <label htmlFor="points" className="col-sm-2 col-form-label">Points</label>
                     <div className="col-sm-8">
-                        <input type="number" id="points" name="points" className="form-control" value="100" readOnly />
+                        <input type="number" id="points" name="points" className="form-control" value={assignment.points} readOnly />
                     </div>
                 </div>
 
@@ -149,29 +154,29 @@ export default function AssignmentEditor() {
                 <div className="row mb-3">
                     <label htmlFor="dueDate" className="col-sm-2 col-form-label">Due Date</label>
                     <div className="col-sm-8">
-                        <input type="date" id="dueDate" name="dueDate" className="form-control" value="2024-05-13" />
+                        <input type="date" id="dueDate" name="dueDate" className="form-control" value={assignment.dueDate} />
                     </div>
                 </div>
 
                 <div className="row mb-3">
                     <label htmlFor="availableFrom" className="col-sm-2 col-form-label">Available From</label>
                     <div className="col-sm-8">
-                        <input type="date" id="availableFrom" name="availableFrom" className="form-control" value="2024-05-06" />
+                        <input type="date" id="availableFrom" name="availableFrom" className="form-control" value={assignment.availableFrom} />
                     </div>
                 </div>
 
                 <div className="row mb-3">
                     <label htmlFor="availableUntil" className="col-sm-2 col-form-label">Available Until</label>
                     <div className="col-sm-8">
-                        <input type="date" id="availableUntil" name="availableUntil" className="form-control" value="2024-05-20" />
+                        <input type="date" id="availableUntil" name="availableUntil" className="form-control" value={assignment.availableUntil} />
                     </div>
                 </div>
                 <br />
                 <div className="col-sm-10">
-                <div className="float-end">
-                    <button type="button" className="btn btn-secondary">Cancel</button>
-                    <button type="button" className="btn btn-danger">Save</button>
-                </div>
+                    <div className="float-end">
+                        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary">Cancel</Link>
+                        <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">Save</Link>
+                    </div>
                 </div>
             </form>
         </div>

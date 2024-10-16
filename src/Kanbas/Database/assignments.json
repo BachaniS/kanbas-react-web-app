@@ -1,0 +1,11 @@
+[
+  { "_id": "A101", "title": "Propulsion Assignment", "course": "RS101", "description": "Assignment on the basics of propulsion systems.", "points": 100, "dueDate": "2024-09-15", "availableFrom": "2024-09-01", "availableUntil": "2024-09-30" },
+  { "_id": "A102", "title": "Combustion Analysis", "course": "RS101", "description": "Analysis of combustion processes in rocket engines.", "points": 100, "dueDate": "2024-10-01", "availableFrom": "2024-09-15", "availableUntil": "2024-10-15" },
+  { "_id": "A103", "title": "Nozzle Design Project", "course": "RS101", "description": "Project focused on designing efficient nozzles for propulsion.", "points": 150, "dueDate": "2024-10-15", "availableFrom": "2024-10-01", "availableUntil": "2024-10-31" },
+  { "_id": "A201", "title": "Aerodynamics Quiz", "course": "RS102", "description": "Quiz covering fundamental concepts in aerodynamics.", "points": 50, "dueDate": "2024-09-10", "availableFrom": "2024-09-01", "availableUntil": "2024-09-15" },
+  { "_id": "A202", "title": "Flow Analysis", "course": "RS102", "description": "Analysis of fluid flow in various aerospace applications.", "points": 100, "dueDate": "2024-09-25", "availableFrom": "2024-09-10", "availableUntil": "2024-09-30" },
+  { "_id": "A203", "title": "Heating Analysis", "course": "RS102", "description": "Study of heating effects on aerospace structures.", "points": 100, "dueDate": "2024-10-05", "availableFrom": "2024-09-20", "availableUntil": "2024-10-10" },
+  { "_id": "A301", "title": "Structural Design Task", "course": "RS103", "description": "Task involving the design of aerospace structures.", "points": 150, "dueDate": "2024-09-20", "availableFrom": "2024-09-05", "availableUntil": "2024-09-25" },
+  { "_id": "A302", "title": "Orbital Calculations", "course": "RS103", "description": "Calculations related to orbital mechanics and satellite trajectories.", "points": 100, "dueDate": "2024-10-10", "availableFrom": "2024-09-25", "availableUntil": "2024-10-15" },
+  { "_id": "A303", "title": "Systems Engineering Exam", "course": "RS103", "description": "Exam on systems engineering principles and practices.", "points": 200, "dueDate": "2024-10-20", "availableFrom": "2024-10-05", "availableUntil": "2024-10-25" }
+  ]

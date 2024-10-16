@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useParams } from "react-router";
+import { useLocation } from "react-router";
 
 export default function CoursesNavigation() {
-  const { courseId } = useParams();
+  const { cid } = useParams();
   const location = useLocation();
   const links = [
     { name: "Home", path: "Home" },
@@ -19,7 +20,7 @@ export default function CoursesNavigation() {
       {links.map(link => (
         <Link
           key={link.path}
-          to={`/Kanbas/Courses/${courseId}/${link.path}`}
+          to={`/Kanbas/Courses/${cid}/${link.path}`}
           className={`list-group-item border border-0 ${location.pathname.includes(link.path) ? 'active' : ''}`}
         >
           {link.name}
