@@ -16,7 +16,7 @@ export default function CoursesNavigation() {
   ];
 
   return (
-    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
+    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0" style={{ marginRight: '30px' }}>
       {links.map(link => (
         <Link
           key={link.path}
