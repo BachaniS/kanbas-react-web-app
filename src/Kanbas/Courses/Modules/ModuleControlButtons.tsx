@@ -3,6 +3,7 @@ import { BsPlus } from "react-icons/bs";
 import GreenCheckmark from "./GreenCheckmark";
 import { FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
+import EditAccess from "../EditAccess";
 
 export default function ModuleControlButtons({
   moduleId,
@@ -15,6 +16,7 @@ export default function ModuleControlButtons({
 }) {
   return (
     <div className="float-end">
+    <EditAccess>
       <FaPencil
         className="text-primary me-3"
         onClick={() => editModule(moduleId)}
@@ -23,6 +25,7 @@ export default function ModuleControlButtons({
         className="text-danger me-2"
         onClick={() => deleteModule(moduleId)}
       />
+      </EditAccess>
       <GreenCheckmark />
       <BsPlus className="fs-4" />
       <IoEllipsisVertical className="fs-4" />
