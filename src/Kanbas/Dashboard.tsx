@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { useSelector } from "react-redux";
 import * as db from "./Database";
+import EditAccess from "./Courses/EditAccess";
 
 export default function Dashboard({
   courses,
@@ -23,6 +24,7 @@ export default function Dashboard({
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      <EditAccess>
       <h5>
         New Course
         <button
@@ -41,6 +43,7 @@ export default function Dashboard({
           Update
         </button>
       </h5>
+      
       <br />
       <input
         defaultValue={course.name}
@@ -52,6 +55,7 @@ export default function Dashboard({
         className="form-control"
         onChange={(e) => setCourse({ ...course, description: e.target.value })}
       />
+      </EditAccess>
       <hr />
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})
@@ -92,6 +96,7 @@ export default function Dashboard({
                       </p>
                       <button className="btn btn-primary"> Go </button>
 
+                      <EditAccess>
                       <button
                         onClick={(event) => {
                           event.preventDefault();
@@ -113,6 +118,7 @@ export default function Dashboard({
                       >
                         Edit
                       </button>
+                      </EditAccess>
                     </div>
                   </Link>
                 </div>
