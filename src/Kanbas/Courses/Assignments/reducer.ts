@@ -14,6 +14,9 @@ const assignmentsSlice = createSlice({
         _id: new Date().getTime().toString(),
         title: assignment.title,
         description: assignment.description,
+        points: assignment.points,
+        availableFrom: assignment.availableFrom,
+        availableUntil: assignment.available,
         dueDate: assignment.dueDate,
         course: assignment.course,
       };

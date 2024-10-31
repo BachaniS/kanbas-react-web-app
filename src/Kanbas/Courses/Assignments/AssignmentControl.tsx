@@ -1,7 +1,8 @@
 import { FaPlus } from "react-icons/fa";
-import AssignmentEditor from "./AssignmentEditor";
+import { Link, useParams } from "react-router-dom";
 
 export default function AssignmentControl() {
+  const { cid } = useParams();
   return (
     <div id="wd-assignment-control" className="toolbar">
       <input
@@ -9,26 +10,15 @@ export default function AssignmentControl() {
         placeholder="Search..."
         className="form-control-lg me-1"
       />
-      <button
-        id="wd-add-assignment-btn"
-        className="btn btn-lg btn-danger me-1 float-end"
-        data-bs-toggle="modal"
-        data-bs-target="#wd-add-assignment-dialog"
-      >
+      <Link to={`/Kanbas/Courses/${cid}/Assignments/New`} className="btn btn-lg btn-danger me-1 float-end">
         <FaPlus className="me-2 fs-5" /> Assignment
-      </button>
+      </Link>
       <button
         id="wd-add-group-btn"
         className="btn btn-lg btn-secondary me-1 float-end"
       >
         <FaPlus className="me-2 fs-5" /> Group
       </button>
-      <AssignmentEditor
-        dialogTitle="Add Assignment"
-        assignmentName=""
-        setAssignmentName={() => {}}
-        addAssignment={() => {}}
-      />
     </div>
   );
 }

@@ -64,51 +64,6 @@ export default function AssignmentEditor() {
         </div>
 
         <div className="row mb-3">
-          <label htmlFor="assignmentGroup" className="col-sm-2 col-form-label">
-            Assignment Group
-          </label>
-          <div className="col-sm-8">
-            <select
-              id="assignmentGroup"
-              name="assignmentGroup"
-              className="form-select"
-            >
-              <option value="assignments">Assignments</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <label htmlFor="displayGradeAs" className="col-sm-2 col-form-label">
-            Display Grade As
-          </label>
-          <div className="col-sm-8">
-            <select
-              id="displayGradeAs"
-              name="displayGradeAs"
-              className="form-select"
-            >
-              <option value="percentage">Percentage</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <label htmlFor="submissionType" className="col-sm-2 col-form-label">
-            Submission Type
-          </label>
-          <div className="col-sm-8">
-            <select
-              id="submissionType"
-              name="submissionType"
-              className="form-select"
-            >
-              <option value="online">Online</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="row mb-3">
           <label className="col-sm-2 col-form-label">
             Online Entry Options
           </label>

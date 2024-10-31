@@ -7,46 +7,40 @@ import { MdAnnouncement, MdAnalytics } from "react-icons/md";
 
 export default function CourseStatus() {
   return (
-    <div id="wd-course-status" style={{ width: "300px", marginLeft: "30px" }}>
-      <h2>Course Status</h2>
-      <div className="d-flex">
-        <div className="w-50 pe-1">
+    <div id="wd-course-status" className="p-3" style={{ maxWidth: "100%", minWidth: "250px" }}>
+      <h2 className="text-center">Course Status</h2>
+      <div className="d-flex flex-wrap">
+        <div className="col-12 col-md-6 mb-2 pe-md-1">
           <button className="btn btn-lg btn-secondary w-100 text-nowrap">
-            <MdDoNotDisturbAlt className="me-2 fs-5" /> Unpublish
+            <MdDoNotDisturbAlt className="me-2 fs-6" /> Unpublish
           </button>
         </div>
-        <div className="w-50">
+        <div className="col-12 col-md-6 mb-2 ps-md-1">
           <button className="btn btn-lg btn-success w-100">
-            <FaCheckCircle className="me-2 fs-5" /> Publish
+            <FaCheckCircle className="me-2 fs-6" /> Publish
           </button>
         </div>
       </div>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <BiImport className="me-2 fs-5" /> Import Existing Content
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <BiImport className="me-2 fs-6" /> Import Existing Content
       </button>
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <LiaFileImportSolid className="me-2 fs-6" /> Import from Commons
       </button>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <AiOutlineHome className="me-2 fs-5" /> Choose Home Page
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <AiOutlineHome className="me-2 fs-6" /> Choose Home Page
       </button>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <AiOutlineEye className="me-2 fs-5" /> View Course Stream
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <AiOutlineEye className="me-2 fs-6" /> View Course Stream
       </button>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <MdAnnouncement className="me-2 fs-5" /> New Announcement
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <MdAnnouncement className="me-2 fs-6" /> New Announcement
       </button>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <MdAnalytics className="me-2 fs-5" /> New Analytics
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <MdAnalytics className="me-2 fs-6" /> New Analytics
       </button>
-      <br />
-      <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
-        <AiOutlineNotification className="me-2 fs-5" /> View Course Notifications
+      <button className="btn btn-lg btn-secondary w-100 mt-2 text-start">
+        <AiOutlineNotification className="me-2 fs-6" /> View Course Notifications
       </button>
     </div>
   );

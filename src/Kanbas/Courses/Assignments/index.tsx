@@ -1,17 +1,47 @@
+import { useState, useEffect } from "react";
 import { BsGripVertical } from "react-icons/bs";
 import { MdEditNote } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 import AssignmentControl from "./AssignmentControl";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useParams } from "react-router-dom";
-import { assignments } from "../../Database";
+import { assignments as initialAssignments } from "../../Database";
+import { useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
   const { cid } = useParams();
-  const courseAssignments = assignments.filter(
-    (assignment) => assignment.course === cid
-  );
+  const [courseAssignments, setCourseAssignments] = useState<
+    {
+      _id: string;
+      title: string;
+      course: string;
+      description: string;
+      points: number;
+      dueDate: string;
+      availableFrom: string;
+      availableUntil: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    setCourseAssignments(
+      initialAssignments.filter((assignment) => assignment.course === cid)
+    );
+  }, [cid]);
+
+  const dispatch = useDispatch();
+
+  const handleDelete = (assignmentId: string) => {
+    if (window.confirm("Are you sure you want to remove this assignment?")) {
+      dispatch(deleteAssignment(assignmentId));
+      setCourseAssignments((prevAssignments) =>
+        prevAssignments.filter((assignment) => assignment._id !== assignmentId)
+      );
+    }
+  };
 
   return (
     <div>
@@ -49,7 +79,16 @@ export default function Assignments() {
                   <b>Due</b> {assignment.availableUntil} | {assignment.points}{" "}
                   points
                 </div>
-                <LessonControlButtons />
+                <div>
+                  <FaTrash
+                    className="text-danger me-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDelete(assignment._id)}
+                  />
+                </div>
+                <div>
+                  <LessonControlButtons />
+                </div>
               </li>
             ))}
           </ul>
