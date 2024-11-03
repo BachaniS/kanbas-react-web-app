@@ -1,14 +1,47 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useParams, Link } from "react-router-dom";
-import { assignments } from "../../Database";
+import { useSelector } from "react-redux";
+import { updateAssignment } from "./reducer";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 export default function AssignmentEditor() {
-  const { cid, aid } = useParams();
-  const assignment = assignments.find((a) => a._id === aid);
+  const { cid , aid } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const assignments = useSelector((state :any) =>
+    state.assignmentsReducer.assignments.find((a :any) => a._id === aid)
+  );
 
-  if (!assignment) {
+  
+  const [assignmentName, setAssignmentName] = useState(assignments.title);
+  const [description, setDescription] = useState(assignments.description);
+  const [points, setPoints] = useState(assignments.points);
+  const [dueDate, setDueDate] = useState(assignments.dueDate);
+  const [availableFrom, setAvailableFrom] = useState(assignments.availableFrom);
+  const [availableUntil, setAvailableUntil] = useState(assignments.availableUntil);
+
+  if (!assignments) {
     return <div>Assignment not found</div>;
   }
+
+  const handleSave = () => {
+    dispatch(
+      updateAssignment({
+        _id: aid,
+        title: assignmentName,
+        description,
+        points,
+        dueDate,
+        availableFrom,
+        availableUntil,
+        course: cid, 
+      })
+    );
+    navigate(`/Kanbas/Courses/${cid}/Assignments`); 
+  };
 
   return (
     <div className="container mt-4">
@@ -23,8 +56,8 @@ export default function AssignmentEditor() {
               id="assignmentName"
               name="assignmentName"
               className="form-control"
-              value={assignment.title}
-              readOnly
+              value={assignmentName}
+              onChange={(e) => setAssignmentName(e.target.value)}
             />
           </div>
         </div>
@@ -40,9 +73,10 @@ export default function AssignmentEditor() {
               className="form-control"
               cols={45}
               rows={15}
-              readOnly
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             >
-              {assignment.description}
+              {assignments.description}
             </textarea>
           </div>
         </div>
@@ -57,8 +91,8 @@ export default function AssignmentEditor() {
               id="points"
               name="points"
               className="form-control"
-              value={assignment.points}
-              readOnly
+              value={points}
+              onChange={(e) => setPoints(Number(e.target.value))}
             />
           </div>
         </div>
@@ -142,7 +176,7 @@ export default function AssignmentEditor() {
               name="assignTo"
               className="form-control"
               value="Everyone"
-              readOnly
+              
             />
           </div>
         </div>
@@ -157,7 +191,8 @@ export default function AssignmentEditor() {
               id="dueDate"
               name="dueDate"
               className="form-control"
-              value={assignment.dueDate}
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
             />
           </div>
         </div>
@@ -172,7 +207,8 @@ export default function AssignmentEditor() {
               id="availableFrom"
               name="availableFrom"
               className="form-control"
-              value={assignment.availableFrom}
+              value={availableFrom}
+              onChange={(e) => setAvailableFrom(e.target.value)}
             />
           </div>
         </div>
@@ -187,7 +223,8 @@ export default function AssignmentEditor() {
               id="availableUntil"
               name="availableUntil"
               className="form-control"
-              value={assignment.availableUntil}
+              value={availableUntil}
+              onChange={(e) => setAvailableUntil(e.target.value)}
             />
           </div>
         </div>
@@ -200,12 +237,13 @@ export default function AssignmentEditor() {
             >
               Cancel
             </Link>
-            <Link
-              to={`/Kanbas/Courses/${cid}/Assignments`}
+            <button
+              type="button"
               className="btn btn-danger"
+              onClick={handleSave}
             >
               Save
-            </Link>
+            </button>
           </div>
         </div>
       </form>

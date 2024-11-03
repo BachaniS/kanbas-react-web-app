@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addAssignment } from "./reducer"; 
+
+import { addAssignment } from "./reducer";
 
 export default function NewAssignment() {
   const dispatch = useDispatch();
