@@ -17,6 +17,26 @@ export default function NewAssignment() {
   const [availableUntil, setAvailableUntil] = useState("");
 
   const handleSave = () => {
+    if (!assignmentName || !description || !dueDate || !availableFrom || !availableUntil) {
+      alert("All fields must be filled out.");
+      return;
+    }
+
+    if (new Date(dueDate) <= new Date(availableFrom)) {
+      alert("Due date must be after available from date.");
+      return;
+    }
+
+    if (new Date(dueDate) >= new Date(availableUntil)) {
+      alert("Due date must be before available until date.");
+      return;
+    }
+
+    if (new Date(availableFrom) >= new Date(availableUntil)) {
+      alert("Available from date must be before available until date.");
+      return;
+    }
+
     dispatch(
       addAssignment({
         title: assignmentName,

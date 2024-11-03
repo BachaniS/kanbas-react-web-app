@@ -15,7 +15,6 @@ export default function AssignmentEditor() {
     state.assignmentsReducer.assignments.find((a :any) => a._id === aid)
   );
 
-  
   const [assignmentName, setAssignmentName] = useState(assignments.title);
   const [description, setDescription] = useState(assignments.description);
   const [points, setPoints] = useState(assignments.points);
@@ -28,6 +27,26 @@ export default function AssignmentEditor() {
   }
 
   const handleSave = () => {
+    if (!assignmentName || !description || !dueDate || !availableFrom || !availableUntil) {
+      alert("All fields must be filled out.");
+      return;
+    }
+
+    if (new Date(dueDate) <= new Date(availableFrom)) {
+      alert("Due date must be after available from date.");
+      return;
+    }
+
+    if (new Date(dueDate) >= new Date(availableUntil)) {
+      alert("Due date must be before available until date.");
+      return;
+    }
+
+    if (new Date(availableFrom) >= new Date(availableUntil)) {
+      alert("Available from date must be before available until date.");
+      return;
+    }
+
     dispatch(
       updateAssignment({
         _id: aid,
@@ -176,7 +195,6 @@ export default function AssignmentEditor() {
               name="assignTo"
               className="form-control"
               value="Everyone"
-              
             />
           </div>
         </div>
