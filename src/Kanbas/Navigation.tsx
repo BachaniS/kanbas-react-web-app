@@ -51,7 +51,7 @@ export default function KanbasNavigation() {
       ))}
       
       <Link
-        to="https://a3--landing-page-somesh-bachani.netlify.app/"
+        to="https://a4--landing-page-somesh-bachani.netlify.app/"
         target="_blank"
         rel="noreferrer"
         id="wd-landing-page-link"
