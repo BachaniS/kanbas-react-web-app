@@ -1,0 +1,17 @@
+#wd-course-status, #wd-kanbas-navigation {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    #wd-course-status {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 576px) {
+    #wd-kanbas-navigation {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

@@ -4,10 +4,11 @@ import { BiImport } from "react-icons/bi";
 import { LiaFileImportSolid } from "react-icons/lia";
 import { AiOutlineHome, AiOutlineEye, AiOutlineNotification } from "react-icons/ai";
 import { MdAnnouncement, MdAnalytics } from "react-icons/md";
+import "./index.css";
 
 export default function CourseStatus() {
   return (
-    <div id="wd-course-status" className="p-3" style={{ maxWidth: "100%", minWidth: "250px" }}>
+    <div id="wd-course-status" className="p-3" style={{ maxWidth: "100%", minWidth: "100%"}}>
       <h2 className="text-center">Course Status</h2>
       <div className="d-flex flex-wrap">
         <div className="col-12 col-md-6 mb-2 pe-md-1">
