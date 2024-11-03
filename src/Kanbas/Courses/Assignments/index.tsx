@@ -15,6 +15,7 @@ export default function Assignments() {
   const dispatch = useDispatch();
 
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const handleDelete = (assignmentId: string) => {
     if (window.confirm("Are you sure you want to remove this assignment?")) {
@@ -45,12 +46,19 @@ export default function Assignments() {
                   <BsGripVertical className="me-2 fs-3" />
                   <MdEditNote className="me-2 fs-3" color="green" />
                   <div className="flex-grow-1">
-                    <a
-                      className="wd-assignment-link text-black"
-                      href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
-                    >
-                      {assignment.title}
-                    </a>
+                    {currentUser.role === "FACULTY" ||
+                    currentUser.role === "ADMIN" ? (
+                      <a
+                        className="wd-assignment-link text-black"
+                        href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
+                      >
+                        {assignment.title}
+                      </a>
+                    ) : (
+                      <span className="wd-assignment-title text-black">
+                        {assignment.title}
+                      </span>
+                    )}
                     <br />
                     <span style={{ color: "red" }}>
                       {" "}
