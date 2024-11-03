@@ -156,31 +156,33 @@ export default function Dashboard({
                       </button>
                     </EditAccess>
 
-                    <EditAccessStudents>
-                      {isEnrolled(course._id) ? (
-                        <button
-                          onClick={(event) => {
-                            event.preventDefault();
-                            handleUnenroll(course._id);
-                          }}
-                          className="btn btn-danger float-end"
-                          id="wd-unenroll-course-click"
-                        >
-                          Unenroll
-                        </button>
-                      ) : (
-                        <button
-                          onClick={(event) => {
-                            event.preventDefault();
-                            handleEnroll(course._id);
-                          }}
-                          className="btn btn-success me-2 float-end"
-                          id="wd-enroll-course-click"
-                        >
-                          Enroll
-                        </button>
-                      )}
-                    </EditAccessStudents>
+                    {showAllCourses && (
+                      <EditAccessStudents>
+                        {isEnrolled(course._id) ? (
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              handleUnenroll(course._id);
+                            }}
+                            className="btn btn-danger float-end"
+                            id="wd-unenroll-course-click"
+                          >
+                            Unenroll
+                          </button>
+                        ) : (
+                          <button
+                            onClick={(event) => {
+                              event.preventDefault();
+                              handleEnroll(course._id);
+                            }}
+                            className="btn btn-success me-2 float-end"
+                            id="wd-enroll-course-click"
+                          >
+                            Enroll
+                          </button>
+                        )}
+                      </EditAccessStudents>
+                    )}
                   </div>
                 </Link>
               </div>
