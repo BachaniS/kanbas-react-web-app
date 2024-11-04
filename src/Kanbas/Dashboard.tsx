@@ -119,6 +119,9 @@ export default function Dashboard({
                     width="100%"
                     height={160}
                     alt={`${course.name}`}
+                    onError={(e) => {
+                      e.currentTarget.src = "/images/reactjs.png";
+                    }}
                   />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
