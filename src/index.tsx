@@ -6,6 +6,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -14,12 +15,12 @@ root.render(
     <App />
   </React.StrictMode>
 );
-const home = ReactDOM.createRoot(
-  document.getElementById("home") as HTMLElement
-);
-home.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+//const home = ReactDOM.createRoot(
+//  document.getElementById("home") as HTMLElement
+//);
+// home.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
 reportWebVitals();

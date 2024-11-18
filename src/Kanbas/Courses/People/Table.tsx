@@ -5,7 +5,7 @@ import * as db from "../../Database";
 
 export default function PeopleTable() {
   const { cid } = useParams();
-  const { users, enrollments } = db;
+  const { users, enrollments } = db.default;
   return (
     <div id="wd-people-table">
       <table className="table table-striped">

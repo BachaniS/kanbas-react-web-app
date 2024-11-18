@@ -6,12 +6,11 @@ import KanbasNavigation from "./Navigation";
 import "./styles.css";
 import * as db from "./Database";
 import { useState } from "react";
-import store from "./store";
-import { Provider } from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
+import Session from "./Account/Session";
 
 export default function Kanbas() {
-  const [courses, setCourses] = useState<any[]>(db.courses);
+  const [courses, setCourses] = useState<any>(db.default.courses);
   const [course, setCourse] = useState<any>({
     _id: "1234",
     name: "New Course",
@@ -27,11 +26,11 @@ export default function Kanbas() {
     ]);
   };
   const deleteCourse = (courseId: any) => {
-    setCourses(courses.filter((course) => course._id !== courseId));
+    setCourses(courses.filter((course: any) => course._id !== courseId));
   };
   const updateCourse = () => {
     setCourses(
-      courses.map((c) => {
+      courses.map((c: any) => {
         if (c._id === course._id) {
           return course;
         } else {
@@ -42,7 +41,7 @@ export default function Kanbas() {
   };
 
   return (
-    <Provider store={store}>
+    <Session>
       <div id="wd-kanbas">
         <KanbasNavigation />
         <div className="wd-main-content-offset p-3">
@@ -78,6 +77,6 @@ export default function Kanbas() {
           </Routes>
         </div>
       </div>
-    </Provider>
+   </Session>
   );
 }
