@@ -1,4 +1,4 @@
-export default [
+const users =  [
   {
     _id: "0512",
     username: "admin",
@@ -615,3 +615,5 @@ export default [
     totalActivity: "52:56:34",
   },
 ];
+
+export default users;

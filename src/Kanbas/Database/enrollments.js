@@ -1,4 +1,4 @@
-export default[
+const enrollments = [
   { "_id": "1", "user": "012", "course": "RS101" },
   { "_id": "2", "user": "234", "course": "RS101" },
   { "_id": "3", "user": "1234", "course": "RS101" },
@@ -75,4 +75,5 @@ export default[
   { "_id": "74", "user": "123", "course": "RS104" },
   { "_id": "75", "user": "123", "course": "RS105" },
   { "_id": "76", "user": "123", "course": "RS106" }
-]
+];
+export default enrollments;

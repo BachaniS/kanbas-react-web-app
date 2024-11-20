@@ -1,4 +1,4 @@
-export default[
+const assignments = [
   {
     "_id": "A101",
     "title": "Propulsion Assignment",
@@ -629,4 +629,5 @@ export default[
     "availableFrom": "2024-10-01",
     "availableUntil": "2024-10-31"
   }
-]
+];
+export default assignments;
