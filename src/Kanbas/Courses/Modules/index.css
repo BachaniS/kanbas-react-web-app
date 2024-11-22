@@ -1,0 +1,19 @@
+#wd-modules {
+    transition: all 0.3s ease;
+}
+
+.wd-module {
+    transition: all 0.3s ease;
+}
+
+.wd-title {
+    transition: all 0.3s ease;
+}
+
+.wd-lessons {
+    transition: all 0.3s ease;
+}
+
+.wd-lesson {
+    transition: all 0.3s ease;
+}
