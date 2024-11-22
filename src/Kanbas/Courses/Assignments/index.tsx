@@ -13,6 +13,7 @@ import * as coursesClient from "../client";
 import * as assignmentsClient from "./client";
 import { useEffect } from "react";
 import { setAssignments } from "./reducer";
+import { useCallback } from "react";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -27,15 +28,16 @@ export default function Assignments() {
       dispatch(deleteAssignment(assignmentId));
     }
   };
-  const fetchAssignments = async () => {
+  const fetchAssignments = useCallback(async () => {
     const assignments = await coursesClient.findAssignmentsForCourse(
       cid as string
     );
     dispatch(setAssignments(assignments));
-  };
+  }, [dispatch, cid]);
+  
   useEffect(() => {
     fetchAssignments();
-  }, []);
+  }, [fetchAssignments]);
 
   return (
     <div>

@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./index.css";
 import * as coursesClient from "../client";
 import * as modulesClient from "./client";
+import { useCallback } from "react";
 
 export default function Modules() {
   const { cid } = useParams();
@@ -37,13 +38,16 @@ export default function Modules() {
   };
 
 
-  const fetchModules = async () => {
-    const modules = await coursesClient.findModulesForCourse(cid as string);
-    dispatch(setModules(modules));
-  };
-  useEffect(() => {
-    fetchModules();
-  }, []);
+  
+const fetchModules = useCallback(async () => {
+  const modules = await coursesClient.findModulesForCourse(cid as string);
+  dispatch(setModules(modules));
+}, [dispatch, cid]);
+
+useEffect(() => {
+  fetchModules();
+}, [fetchModules]);
+
   return (
     <div>
       <ul id="wd-modules" className="list-group rounded-0">
