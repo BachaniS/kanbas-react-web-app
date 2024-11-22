@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import * as assignmentsClient from "./client";
 import * as coursesClient from "../client";
 import { addAssignment } from "./reducer";
 

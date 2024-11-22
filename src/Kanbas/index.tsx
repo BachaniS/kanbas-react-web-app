@@ -11,8 +11,12 @@ import Session from "./Account/Session";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import * as courseClient from "./Courses/client";
+import * as enrollmentsClient from "./Courses/Enrollments/client";
+import { enrollCourse } from "./Courses/Enrollments/reducer";
+import { useDispatch } from "react-redux";
 
 export default function Kanbas() {
+  const dispatch = useDispatch();
   const [courses, setCourses] = useState<any>([]);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
@@ -35,15 +39,33 @@ export default function Kanbas() {
     endDate: "2023-12-15",
     description: "New Description",
   });
+  
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
-    setCourses([...courses, newCourse]);
+    try {
+      // Create the new course
+      const newCourse = await userClient.createCourse(course);
+      setCourses([...courses, newCourse]);
+
+      // Automatically enroll the course creator
+      await enrollmentsClient.enrollUser({
+        userId: currentUser._id,
+        courseId: newCourse._id,
+      });
+      
+      dispatch(enrollCourse({ 
+        userId: currentUser._id, 
+        courseId: newCourse._id 
+      }));
+    } catch (error) {
+      console.error("Failed to create course or enroll:", error);
+    }
   };
 
   const deleteCourse = async (courseId: string) => {
-    const status = await courseClient.deleteCourse(courseId);
-    setCourses(courses.filter((course: any) => course._id !== courseId));
+    await courseClient.deleteCourse(courseId);
+    setCourses(courses.filter((course :any) => course._id !== courseId));
   };
+
 
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
