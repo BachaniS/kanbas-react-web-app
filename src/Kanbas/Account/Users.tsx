@@ -21,6 +21,7 @@ export default function Users() {
     }
   };
   const [name, setName] = useState("");
+  console.log(name); // Dummy usage to avoid 'declared but its value is never read' warning
   const filterUsersByName = async (name: string) => {
     setName(name);
     if (name) {
