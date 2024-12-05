@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
 import { FaCheck, FaUserCircle } from "react-icons/fa";
 import * as client from "../../Account/client";
+
 export default function PeopleDetails() {
   const { uid } = useParams();
   const [user, setUser] = useState<any>({});
@@ -12,11 +13,7 @@ export default function PeopleDetails() {
     await client.deleteUser(uid);
     navigate(-1);
   };
-  const fetchUser = async () => {
-    if (!uid) return;
-    const user = await client.findUserById(uid);
-    setUser(user);
-  };
+
   const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
   const saveUser = async () => {
@@ -29,9 +26,17 @@ export default function PeopleDetails() {
   };
 
   useEffect(() => {
+    const fetchUser = async () => {
+      if (!uid) return;
+      const user = await client.findUserById(uid);
+      setUser(user);
+    };
+
     if (uid) fetchUser();
   }, [uid]);
+
   if (!uid) return null;
+
   return (
     <div className="wd-people-details position-fixed top-0 end-0 bottom-0 bg-white p-4 shadow w-25">
       <button
