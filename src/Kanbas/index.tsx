@@ -4,7 +4,6 @@ import Courses from "./Courses";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import "./styles.css";
-import * as userClient from "./Account/client";
 import { useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import Session from "./Account/Session";
@@ -21,7 +20,7 @@ export default function Kanbas() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const fetchCourses = async () => {
     try {
-      const courses = await userClient.findMyCourses();
+      const courses = await courseClient.fetchAllCourses();
       setCourses(courses);
     } catch (error) {
       console.error(error);
@@ -39,23 +38,23 @@ export default function Kanbas() {
     endDate: "2023-12-15",
     description: "New Description",
   });
-  
+
   const addNewCourse = async () => {
     try {
-      // Create the new course
-      const newCourse = await userClient.createCourse(course);
+      const newCourse = await courseClient.createCourse(course);
       setCourses([...courses, newCourse]);
 
-      // Automatically enroll the course creator
       await enrollmentsClient.enrollUser({
         userId: currentUser._id,
         courseId: newCourse._id,
       });
-      
-      dispatch(enrollCourse({ 
-        userId: currentUser._id, 
-        courseId: newCourse._id 
-      }));
+
+      dispatch(
+        enrollCourse({
+          userId: currentUser._id,
+          courseId: newCourse._id,
+        })
+      );
     } catch (error) {
       console.error("Failed to create course or enroll:", error);
     }
@@ -63,9 +62,8 @@ export default function Kanbas() {
 
   const deleteCourse = async (courseId: string) => {
     await courseClient.deleteCourse(courseId);
-    setCourses(courses.filter((course :any) => course._id !== courseId));
+    setCourses(courses.filter((course: any) => course._id !== courseId));
   };
-
 
   const updateCourse = async () => {
     await courseClient.updateCourse(course);
