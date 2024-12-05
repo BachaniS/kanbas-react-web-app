@@ -28,6 +28,7 @@ export default function PeopleTable({ users = [] }: { users?: any[] }) {
                 <span className="wd-last-name">{user.lastName}</span>
                 </Link>
               </td>
+              
               <td className="wd-login-id">{user.loginId}</td>
               <td className="wd-section">{user.section}</td>
               <td className="wd-role">{user.role}</td>
