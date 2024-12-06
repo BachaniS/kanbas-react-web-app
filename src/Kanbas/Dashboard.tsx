@@ -67,6 +67,25 @@ export default function Dashboard({
     }
   };
 
+  const handleUpdate = async (event: React.MouseEvent, courseId: string) => {
+    event.preventDefault();
+    if (!course || !course._id) {
+      console.error("No course selected to update");
+      alert("Please select a course to update.");
+      return;
+    }else{
+    updateCourse();
+    }
+    if (showAllCourses) {
+      setAllCourses(allCourses.map((c: any) => {
+        if (c._id === course._id) {
+          return course;
+        }
+        return c;
+      }));
+    }
+  };
+
   useEffect(() => {
     enrollmentsClient.fetchEnrollments(currentUser._id).then((enrollments) => {
       dispatch(setEnrollments(enrollments));
@@ -120,7 +139,7 @@ export default function Dashboard({
           <button
             className="btn btn-warning float-end me-2"
             id="wd-update-course-click"
-            onClick={updateCourse}
+            onClick={(event) => handleUpdate(event,course._id)}
           >
             Update
           </button>

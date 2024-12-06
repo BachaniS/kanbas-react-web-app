@@ -66,16 +66,25 @@ export default function Kanbas() {
   };
 
   const updateCourse = async () => {
-    await courseClient.updateCourse(course);
-    setCourses(
-      courses.map((c: any) => {
-        if (c._id === course._id) {
-          return course;
-        } else {
-          return c;
-        }
-      })
-    );
+    if (!course || !course._id) {
+      alert("Please select a course to update.");
+      return;
+    }
+    try {
+      await courseClient.updateCourse(course);
+      setCourses(
+        courses.map((c: any) => {
+          if (c._id === course._id) {
+            return course;
+          } else {
+            return c;
+          }
+        })
+      );
+    } catch (error) {
+      console.error("Failed to update course:", error);
+      alert("Failed to update course.");
+    }
   };
 
   return (
