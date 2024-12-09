@@ -9,6 +9,12 @@ import PeopleTable from "./People/Table";
 import NewAssignment from "./Assignments/NewAssignment";
 import { useState, useEffect } from "react";
 import { findUsersForCourse } from "../Courses/client";
+import Quizzes from "./Quizzes";
+import QuizDetails from "./Quizzes/QuizDetails";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizQuestionEditor from "./Quizzes/QuizQuestionEditor";
+import QuizScreen from "./Quizzes/QuizScreen";
+
 
 export default function Courses({ courses }: { courses: any[] }) {
   const { cid } = useParams();
@@ -48,6 +54,12 @@ export default function Courses({ courses }: { courses: any[] }) {
             <Route path="Assignments" element={<Assignments />} />
             <Route path="Assignments/New" element={<NewAssignment />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            <Route path="Quizzes" element={<Quizzes />} />
+            <Route path="Quizzes/:qid" element={<QuizDetails />} />
+            <Route path="Quizzes/:qid/Editor" element={<QuizEditor />} />
+            <Route path="Quizzes/:qid/QuestionsEditor" element={<QuizQuestionEditor />} />
+            <Route path="Quizzes/:qid/QuizScreen/preview" element={<QuizScreen preview={true}/>} />
+            <Route path="Quizzes/:qid/QuizScreen" element={<QuizScreen preview={false}/>} />
             <Route path="People" element={<PeopleTable users={users} />} />
           </Routes>
         </div>
