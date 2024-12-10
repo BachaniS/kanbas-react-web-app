@@ -6,7 +6,7 @@ import TakingQuestionContainer from "./TakingQuestionContainer";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { LiaPencilAltSolid } from "react-icons/lia";
 import { FaRegQuestionCircle } from "react-icons/fa";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 
 export default function QuizScreen({ preview }: { preview: boolean }) {
@@ -22,47 +22,50 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
   const [attempt, setAttempt] = useState<number>(1);
   const [corrections, setCorrections] = useState<boolean>(false);
 
-  const prepareNewAnswers = (
-    resultAnswers: any[],
-    results: any[],
-    attemptNum: number
-  ) => {
-    if (Array.isArray(resultAnswers) && resultAnswers.length === 0) {
-      resultAnswers = Array.from({ length: results.length }, () => ({
-        quiz: qid,
-        user: currentUser._id,
-        answer: [],
-        attempt: attemptNum,
-        time_started: startDate,
-      }));
-      setStartDate(new Date());
-    } else {
-      setStartDate(
-        resultAnswers.length > 0
-          ? new Date(resultAnswers[0].time_started)
-          : new Date()
-      );
-    }
-    resultAnswers.sort((ans1: any, ans2: any) => ans1.sequence - ans2.sequence);
-    setQuizAnswers(resultAnswers);
-    setAttempt(attemptNum);
-  };
+  const prepareNewAnswers = useCallback(
+    (
+      resultAnswers: any[],
+      results: any[],
+      attemptNum: number
+    ) => {
+      if (Array.isArray(resultAnswers) && resultAnswers.length === 0) {
+        resultAnswers = Array.from({ length: results.length }, () => ({
+          quiz: qid,
+          user: currentUser._id,
+          answer: [],
+          attempt: attemptNum,
+          time_started: startDate,
+        }));
+        setStartDate(new Date());
+      } else {
+        setStartDate(
+          resultAnswers.length > 0
+            ? new Date(resultAnswers[0].time_started)
+            : new Date()
+        );
+      }
+      resultAnswers.sort((ans1: any, ans2: any) => ans1.sequence - ans2.sequence);
+      setQuizAnswers(resultAnswers);
+      setAttempt(attemptNum);
+    },
+    [qid, currentUser._id, startDate, setStartDate, setQuizAnswers, setAttempt]
+  );
 
-  const fetchQuiz = async () => {
+  const fetchQuiz = useCallback(async () => {
     try {
       const results = await quizClient.findQuestionForQuiz(qid as string);
-      console.log("Fetched Questions:", results); // Debugging log
+      //console.log("Fetched Questions:", results); // Debugging log
       setQuizQuestions(results);
   
       const resultQuiz = await quizClient.getQuiz(qid as string);
-      console.log("Fetched Quiz Info:", resultQuiz); // Debugging log
+      //console.log("Fetched Quiz Info:", resultQuiz); // Debugging log
       setQuizInfo(resultQuiz);
   
       var resultAnswers = await quizClient.getLatestAnswersForQuiz(
         qid as string,
         currentUser._id
       );
-      console.log("Fetched Answers:", resultAnswers); // Debugging log
+      //console.log("Fetched Answers:", resultAnswers); // Debugging log
   
       if (
         currentUser.role === "STUDENT" &&
@@ -79,11 +82,11 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
     } catch (error) {
       console.error("Error fetching quiz data:", error); // Error log
     }
-  };
+  }, [qid, currentUser, prepareNewAnswers]);
   
   useEffect(() => {
     fetchQuiz();
-  }, []);
+  }, [fetchQuiz]);
 
   const submitQuiz = async () => {
     quizAnswers.map(async (a) => await quizClient.createOrUpdateAnswer(a));

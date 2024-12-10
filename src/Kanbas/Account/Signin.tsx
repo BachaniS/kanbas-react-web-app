@@ -9,10 +9,22 @@ export default function Signin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signin = async () => {
-    const user =  await client.signin(credentials);
-    if (!user) return;
-    dispatch(setCurrentUser(user));
-    navigate("/Kanbas/Dashboard");
+    try {
+      const user = await client.signin(credentials);
+      if (user.error === "incorrect_password") {
+        alert("Password incorrect");
+        return;
+      }
+      if (!user) {
+        alert("User does not exist");
+        return;
+      }
+      dispatch(setCurrentUser(user));
+      navigate("/Kanbas/Dashboard");
+    } catch (error) {
+      console.error("Signin error:", error);
+      alert("An error occurred during signin. Please try again.");
+    }
   };
 
   return (
@@ -43,12 +55,10 @@ export default function Signin() {
         id="wd-signin-btn"
         className="btn btn-primary w-100"
       >
-        {" "}
-        Sign in{" "}
+        Sign in
       </button>
       <Link id="wd-signup-link" to="/Kanbas/Account/Signup">
-        {" "}
-        Sign up{" "}
+        Sign up
       </Link>
     </div>
   );

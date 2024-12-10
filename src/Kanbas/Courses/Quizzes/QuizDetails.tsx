@@ -1,10 +1,11 @@
 import "../../styles.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FaPencil } from "react-icons/fa6";
 import * as coursesClient from "../client";
 import { useEffect, useState } from "react";
 import { setQuizzes } from "./reducer";
+import { useCallback } from "react";
 
 export default function QuizDetails() {
   const { qid } = useParams();
@@ -37,14 +38,15 @@ export default function QuizDetails() {
       }
     | undefined
   >(undefined);
-  const fetchQuizzes = async () => {
+  const fetchQuizzes = useCallback(async () => {
     const quizzes = await coursesClient.findQuizForCourse(cid as string);
     dispatch(setQuizzes(quizzes));
     setSelectedQuiz(quizzes.find((quiz: any) => quiz._id === qid));
-  };
+  }, [cid, qid, dispatch]);
+
   useEffect(() => {
     fetchQuizzes();
-  }, []);
+  }, [fetchQuizzes]);
 
   return selectedQuiz ? (
     <div id="wd-assignments-editor">

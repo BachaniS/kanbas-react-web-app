@@ -1,7 +1,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import "../../styles.css"
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { TiCancel } from "react-icons/ti"
 import { deleteQuiz, updateQuiz } from "./reducer";
@@ -10,6 +10,8 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import * as coursesClient from "../client"
 import { setQuizzes } from "./reducer";
 import * as quizClient from "./client"
+import Editor from 'react-simple-wysiwyg';
+
 
 export default function QuizEditor() {
   const { qid } = useParams();
@@ -18,62 +20,64 @@ export default function QuizEditor() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-const [points, setPoints] = useState<any>(100);
-const [type, setType] = useState<any>("Graded Quiz");
-const [title, setTitle] = useState<any>("New Quiz");
-const [description, setDescription] = useState<any>("");
-const [group, setGroup] = useState<any>("Quizzes");
-const [shuffle, setShuffle] = useState<any>(true);
-const [hasTimeLimit, setHasTimeLimit] = useState<any>(true)
-const [timeLimit, setTimeLimit] = useState<any>("20");
-const [hasMultipleAttempts, setHasMulitpleAttempts] = useState<any>(false);
-const [attempts, setAttempts] = useState<any>("1");
-const [showCorrect, setShowCorrect] = useState<any>(false);
-const [accessCode, setAccessCode] = useState<any>("");
-const [oneQuestionAtATime, setOneQuestionAtATime] = useState<any>(true);
-const [webcamRequired, setWebcamRequired] = useState<any>(false);
-const [lockQuestions, setLockQuestions] = useState<any>(false);
-const [due_date, setDueDate] = useState<any>("");
-const [available_date, setAvailableDate] = useState<any>("");
-const [available_until_date, setAvailableUntilDate] = useState<any>("");
-const [published, setPublished] = useState<any>(false)
+  const [points, setPoints] = useState<any>(100);
+  const [type, setType] = useState<any>("Graded Quiz");
+  const [title, setTitle] = useState<any>("New Quiz");
+  const [description, setDescription] = useState<any>("");
+  const [group, setGroup] = useState<any>("Quizzes");
+  const [shuffle, setShuffle] = useState<any>(true);
+  const [hasTimeLimit, setHasTimeLimit] = useState<any>(true)
+  const [timeLimit, setTimeLimit] = useState<any>("20");
+  const [hasMultipleAttempts, setHasMulitpleAttempts] = useState<any>(false);
+  const [attempts, setAttempts] = useState<any>("1");
+  const [showCorrect, setShowCorrect] = useState<any>(false);
+  const [accessCode, setAccessCode] = useState<any>("");
+  const [oneQuestionAtATime, setOneQuestionAtATime] = useState<any>(true);
+  const [webcamRequired, setWebcamRequired] = useState<any>(false);
+  const [lockQuestions, setLockQuestions] = useState<any>(false);
+  const [due_date, setDueDate] = useState<any>("");
+  const [available_date, setAvailableDate] = useState<any>("");
+  const [available_until_date, setAvailableUntilDate] = useState<any>("");
+  const [published, setPublished] = useState<any>(false)
+  
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      const quizzes = await coursesClient.findQuizForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
+      const quiz = quizzes.find((quiz: any) => quiz._id === qid);
+      if (quiz) {
+        setPoints(quiz.points);
+        setType(quiz.type);
+        setTitle(quiz.title);
+        setDescription(quiz.description);
+        setGroup(quiz.group);
+        setShuffle(quiz.shuffle_answers);
+        setHasTimeLimit(quiz.has_time_limit);
+        setHasMulitpleAttempts(quiz.multiple_attempts);
+        setAttempts(quiz.attempts);
+        setShowCorrect(quiz.show_correct);
+        setAccessCode(quiz.access_code);
+        setOneQuestionAtATime(quiz.one_question_at_a_time);
+        setWebcamRequired(quiz.webcam_required);
+        setLockQuestions(quiz.lock_questions_after_answering);
+        setDueDate(quiz.due_date);
+        setAvailableDate(quiz.available_date);
+        setAvailableUntilDate(quiz.available_until_date);
+        setPublished(quiz.published);
+      }
+    };
+    fetchQuiz();
+  }, [cid, qid, dispatch]);
+  
+  const removeQuiz = async (quizId: string) => {
+    await quizClient.deleteQuiz(quizId);
+    dispatch(deleteQuiz(quizId));
+  };
+  const saveQuiz = async (quiz: any) => {
+    await quizClient.updateQuiz(quiz);
+    dispatch(updateQuiz(quiz));
+  };
 
-const fetchQuiz = async () => {
-    const quizzes = await coursesClient.findQuizForCourse(cid as string);
-    dispatch(setQuizzes(quizzes));
-    const quiz = quizzes.find((quiz: any) => quiz._id === qid)
-    if(quiz){
-      setPoints(quiz.points)
-      setType(quiz.type)
-      setTitle(quiz.title)
-      setDescription(quiz.description)
-      setGroup(quiz.group)
-      setShuffle(quiz.shuffle_answers)
-      setHasTimeLimit(quiz.has_time_limit)
-      setHasMulitpleAttempts(quiz.multiple_attempts)
-      setAttempts(quiz.attempts)
-      setShowCorrect(quiz.show_correct)
-      setAccessCode(quiz.access_code)
-      setOneQuestionAtATime(quiz.one_question_at_a_time)
-      setWebcamRequired(quiz.webcam_required)
-      setLockQuestions(quiz.lock_questions_after_answering)
-      setDueDate(quiz.due_date)
-      setAvailableDate(quiz.available_date)
-      setAvailableUntilDate(quiz.available_until_date)
-      setPublished(quiz.published)
-    }
-};
-const removeQuiz = async (quizId: string) => {
-  await quizClient.deleteQuiz(quizId);
-  dispatch(deleteQuiz(quizId));
-};
-const saveQuiz = async (quiz: any) => {
-  await quizClient.updateQuiz(quiz);
-  dispatch(updateQuiz(quiz));
-};
-useEffect(() => {
-  fetchQuiz();
-}, []);
 
   const isNewQuiz = location.state?.isNewQuiz;
 
@@ -105,12 +109,11 @@ useEffect(() => {
         }}
         value={title} /><br />
       <label className="form-check-label mb-1" htmlFor="wd-description">Quiz Instructions:</label>
-      <textarea id="wd-description" className="form-control" value={description}
+      <Editor id="wd-description" className="form-control" value={description}
         onChange={(event) => {
           setDescription(event.target.value);
-        }}
-        rows={12} cols={50}>
-      </textarea>
+        }}>
+      </Editor>
 
       <br />
       <div className="row mb-3 align-items-center">
@@ -419,7 +422,7 @@ useEffect(() => {
           className="btn btn-lg btn-secondary me-2"
           onClick={() => {
             if (isNewQuiz) {
-              if(qid){
+              if (qid) {
                 removeQuiz(qid)
               }
               navigate(`/Kanbas/Courses/${cid}/Quizzes`);

@@ -21,7 +21,6 @@ export default function Users() {
   };
 
   useEffect(() => {
-    console.log("Name has been updated:", name);
   }, [name]);
   const filterUsersByName = async (name: string) => {
     setName(name);

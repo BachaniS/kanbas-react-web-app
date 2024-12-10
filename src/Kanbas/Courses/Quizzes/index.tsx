@@ -46,13 +46,13 @@ export default function Quizzes() {
         }
     }
 
-    const fetchQuizzes = async () => {
-        const quizzes = await coursesClient.findQuizForCourse(cid as string);
-        dispatch(setQuizzes(quizzes));
-    };
     useEffect(() => {
+        const fetchQuizzes = async () => {
+            const quizzes = await coursesClient.findQuizForCourse(cid as string);
+            dispatch(setQuizzes(quizzes));
+        };
         fetchQuizzes();
-    }, []);
+    }, [cid, dispatch]);
 
     const createQuizForCourse = async () => {
         if (!cid) return;

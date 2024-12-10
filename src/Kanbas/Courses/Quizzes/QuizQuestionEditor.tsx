@@ -1,11 +1,10 @@
 import "../../styles.css";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import QuestionContainer from "./QuestionContainer";
-import { addQuestion, setQuestions, deleteQuestion, updateQuestion } from "./reducerQuestions";
+import { addQuestion, setQuestions} from "./reducerQuestions";
 import * as quizClient from "./client"
-import { updateQuiz } from "./reducer";
 
   
 export default function QuizQuestionEditor() {
@@ -14,13 +13,13 @@ export default function QuizQuestionEditor() {
   const dispatch = useDispatch();
   const { questions } = useSelector((state: any) => state.questionsReducer);
 
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     const questions = await quizClient.findQuestionForQuiz(qid as string);
     dispatch(setQuestions(questions));
-  };
+  }, [qid, dispatch]);
   useEffect(() => {
     fetchQuestions();
-  }, []);
+  }, [fetchQuestions]);
 
   const createQuestionForQuiz = async () => {
     if (!qid) return;
