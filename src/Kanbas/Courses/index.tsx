@@ -31,7 +31,6 @@ export default function Courses({ courses }: { courses: any[] }) {
     };
     if (cid) {
       fetchUsers();
-      console.log(users);
     }
   }, [cid, users]);
 

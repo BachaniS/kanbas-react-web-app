@@ -1,12 +1,13 @@
 import "../../styles.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import * as quizClient from "./client";
 import TakingQuestionContainer from "./TakingQuestionContainer";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { LiaPencilAltSolid } from "react-icons/lia";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+
 
 export default function QuizScreen({ preview }: { preview: boolean }) {
   const { qid, cid } = useParams();
@@ -27,7 +28,6 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
     attemptNum: number
   ) => {
     if (Array.isArray(resultAnswers) && resultAnswers.length === 0) {
-      // User has not previously answered the questions
       resultAnswers = Array.from({ length: results.length }, () => ({
         quiz: qid,
         user: currentUser._id,
@@ -37,7 +37,6 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
       }));
       setStartDate(new Date());
     } else {
-      // User has previously done the quiz
       setStartDate(
         resultAnswers.length > 0
           ? new Date(resultAnswers[0].time_started)
@@ -50,29 +49,38 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
   };
 
   const fetchQuiz = async () => {
-    const results = await quizClient.findQuestionForQuiz(qid as string);
-    setQuizQuestions(results);
-    const resultQuiz = await quizClient.getQuiz(qid as string);
-    setQuizInfo(resultQuiz);
-
-    // TODO: if user is a student and the quiz can have multiple attempts, use setAttempt
-    var resultAnswers = await quizClient.getLatestAnswersForQuiz(
-      qid as string,
-      currentUser._id
-    );
-    if (
-      currentUser.role === "STUDENT" &&
-      Array.isArray(resultAnswers) &&
-      resultAnswers.length > 0
-    ) {
-      setCorrections(true);
+    try {
+      const results = await quizClient.findQuestionForQuiz(qid as string);
+      console.log("Fetched Questions:", results); // Debugging log
+      setQuizQuestions(results);
+  
+      const resultQuiz = await quizClient.getQuiz(qid as string);
+      console.log("Fetched Quiz Info:", resultQuiz); // Debugging log
+      setQuizInfo(resultQuiz);
+  
+      var resultAnswers = await quizClient.getLatestAnswersForQuiz(
+        qid as string,
+        currentUser._id
+      );
+      console.log("Fetched Answers:", resultAnswers); // Debugging log
+  
+      if (
+        currentUser.role === "STUDENT" &&
+        Array.isArray(resultAnswers) &&
+        resultAnswers.length > 0
+      ) {
+        setCorrections(true);
+      }
+      const newAttempt =
+        Array.isArray(resultAnswers) && resultAnswers.length !== 0
+          ? resultAnswers[0].attempt
+          : 1;
+      prepareNewAnswers(resultAnswers, results, newAttempt);
+    } catch (error) {
+      console.error("Error fetching quiz data:", error); // Error log
     }
-    const newAttempt =
-      Array.isArray(resultAnswers) && resultAnswers.length !== 0
-        ? resultAnswers[0].attempt
-        : 1;
-    prepareNewAnswers(resultAnswers, results, newAttempt);
   };
+  
   useEffect(() => {
     fetchQuiz();
   }, []);
@@ -99,18 +107,18 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
   const calculateScore = (): string => {
     var correctScore = 0;
     var totalScore = 0;
-    quizAnswers.map(async (a) => {
+    quizAnswers.forEach((a) => {
       const matchedQuestion: any | undefined = quizQuestions.find(
         (q: any) => q.sequence === a.sequence
       );
-      let scorePerQ = parseInt(matchedQuestion.points);
-      if (a.correct && matchedQuestion && matchedQuestion !== undefined) {
+      let scorePerQ = matchedQuestion?.points ? parseInt(matchedQuestion.points) : 0;
+      if (a.correct && matchedQuestion) {
         correctScore += scorePerQ;
       }
       totalScore += scorePerQ;
     });
     return `${correctScore}/${totalScore} or ${
-      (correctScore / totalScore) * 100
+      totalScore > 0 ? (correctScore / totalScore) * 100 : 0
     }%`;
   };
 
@@ -133,7 +141,7 @@ export default function QuizScreen({ preview }: { preview: boolean }) {
         id="wd-quiz-questions-and-answers"
         className="row d-flex flex-row justify-content-center mb-2"
       >
-        {quizQuestions.length > 1 && quizAnswers.length > 1 && (
+        {quizQuestions.length > 0 && quizAnswers.length > 0 && (
           <TakingQuestionContainer
             question={quizQuestions.find(
               (q: any) => q.sequence === questionIndex

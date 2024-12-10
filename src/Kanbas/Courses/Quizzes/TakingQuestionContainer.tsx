@@ -17,13 +17,10 @@ export default function TakingQuestionContainer({
 }) {
   return (
     <>
-      {/* Header */}
       <div
         className={`w-75 p-2 pt-3 border d-flex flex-row justify-content-between align-items-center ${
-          corrections && questionAnswer.correct && "bg-success"
-        } 
-      ${corrections && !questionAnswer.correct && "bg-danger"}
-      ${!corrections && "bg-secondary"}`}
+          corrections ? (questionAnswer.correct ? "bg-success" : "bg-danger") : "bg-secondary"
+        }`}
       >
         <h4 className={`${corrections && "text-white"}`}>{question.title}</h4>
         <h5 className={`${corrections && "text-white"}`}>
@@ -31,10 +28,8 @@ export default function TakingQuestionContainer({
         </h5>
       </div>
       <div className="w-75 border">
-        {/* Question body */}
         <p className="pt-2">{question.question}</p>
 
-        {/* Answers */}
         {question.type === "True/False" ? (
           <div className="mb-3">
             <hr />
@@ -46,7 +41,6 @@ export default function TakingQuestionContainer({
               checked={questionAnswer.answer.includes("True")}
               disabled={corrections}
               onChange={(e) => {
-                // If checked, add to array
                 if (e.target.checked) {
                   updateAnswer({
                     ...questionAnswer,
@@ -71,7 +65,6 @@ export default function TakingQuestionContainer({
               checked={questionAnswer.answer.includes("False")}
               disabled={corrections}
               onChange={(e) => {
-                // If checked, add to array
                 if (e.target.checked) {
                   updateAnswer({
                     ...questionAnswer,
@@ -103,7 +96,6 @@ export default function TakingQuestionContainer({
                       checked={questionAnswer.answer.includes(choice)}
                       disabled={corrections}
                       onChange={(e) => {
-                        // If checked, add to array
                         if (e.target.checked) {
                           updateAnswer({
                             ...questionAnswer,
@@ -115,7 +107,6 @@ export default function TakingQuestionContainer({
                             sequence: questionIndex,
                           });
                         } else {
-                          // If unchecked, remove from array
                           updateAnswer({
                             ...questionAnswer,
                             answer: questionAnswer.answer.filter(
@@ -140,7 +131,6 @@ export default function TakingQuestionContainer({
             })}
           </div>
         ) : (
-          // Fill in the blank
           <div className="mb-3">
             <hr />
             <input

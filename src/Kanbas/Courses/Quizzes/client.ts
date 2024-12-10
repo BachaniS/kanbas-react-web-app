@@ -4,7 +4,6 @@ const QUIZZES_API = `${REMOTE_SERVER}/api/quizzes`;
 const QUESTIONS_API = `${REMOTE_SERVER}/api/questions`;
 const ANSWERS_API = `${REMOTE_SERVER}/api/answers`;
 
-// Quiz
 export const updateQuiz = async (quiz: any) => {
   const { data } = await axios.put(`${QUIZZES_API}/${quiz._id}`, quiz);
   return data;
@@ -20,7 +19,6 @@ export const getQuiz = async (quizId: string) => {
   return data;
 };
 
-// Answers
 export const getAnswersForQuiz = async (
   quizId: string,
   attempt: number,
@@ -45,7 +43,6 @@ export const getLatestAnswersForQuiz = async (
   return response.data;
 };
 
-// Questions
 export const findQuestionForQuiz = async (quizId: string) => {
   const response = await axios.get(`${QUIZZES_API}/${quizId}/questions`);
   return response.data;

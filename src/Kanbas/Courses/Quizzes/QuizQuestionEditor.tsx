@@ -6,7 +6,6 @@ import QuestionContainer from "./QuestionContainer";
 import { addQuestion, setQuestions, deleteQuestion, updateQuestion } from "./reducerQuestions";
 import * as quizClient from "./client"
 import { updateQuiz } from "./reducer";
-  //this comment is for a git push to update my netlify,ignore this :)
 
   
 export default function QuizQuestionEditor() {
@@ -36,7 +35,7 @@ export default function QuizQuestionEditor() {
       sequence: questions.length
     };
     const question = await quizClient.createQuestionForQuiz(qid, newQuestion);
-    dispatch(addQuestion(question)); // Pass the server response directly
+    dispatch(addQuestion(question)); 
   };
 
   return (
