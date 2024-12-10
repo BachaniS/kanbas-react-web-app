@@ -60,7 +60,7 @@ export default function ContextMenu({ dialogTitle, modalId, quiz }:
                         } type="button" data-bs-dismiss="modal" className="btn btn-danger me-3">
                             {quiz.published ? "Unpublish Quiz" : "Publish Quiz" }
                         </button>
-                        <button onClick={() => navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Editor`)} 
+                        <button onClick={() => navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`)} 
                         type="button" data-bs-dismiss="modal" className="btn btn-danger me-3">
                             Edit Quiz
                         </button>
