@@ -44,14 +44,14 @@ export default function QuizDetails() {
       }
     | undefined
   >(undefined);
-  const fetchQuizzes = async () => {
-    const quizzes = await coursesClient.findQuizForCourse(cid as string);
-    dispatch(setQuizzes(quizzes));
-    setSelectedQuiz(quizzes.find((quiz: any) => quiz._id === qid));
-  };
   useEffect(() => {
+    const fetchQuizzes = async () => {
+      const quizzes = await coursesClient.findQuizForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
+      setSelectedQuiz(quizzes.find((quiz: any) => quiz._id === qid));
+    };
     fetchQuizzes();
-  }, []);
+  }, [cid, qid, dispatch]);
 
   return selectedQuiz ? (
     <div id="wd-assignments-editor">

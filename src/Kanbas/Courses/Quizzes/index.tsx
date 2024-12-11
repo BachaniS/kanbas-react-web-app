@@ -75,6 +75,12 @@ export default function Quizzes() {
         setQuizAnswers(resultAnswers);
     };
 
+    useEffect(() => {
+        console.log(quizQuestions);
+        console.log(quizAnswers);
+        prepareNewAnswers("mockQuizId");
+    }, []);
+
     const calculateScore = async (qid: string) => {
         const [questions, answers] = await Promise.all([
             quizClient.findQuestionForQuiz(qid),
@@ -122,13 +128,13 @@ export default function Quizzes() {
         fetchAllQuestionCounts();
     }, [quizzes]); 
 
-    const fetchQuizzes = async () => {
-        const quizzes = await coursesClient.findQuizForCourse(cid as string);
-        dispatch(setQuizzes(quizzes));
-    };
     useEffect(() => {
+        const fetchQuizzes = async () => {
+            const quizzes = await coursesClient.findQuizForCourse(cid as string);
+            dispatch(setQuizzes(quizzes));
+        };
         fetchQuizzes();
-    }, []);
+    }, [cid, dispatch]);
 
     const createQuizForCourse = async () => {
         if (!cid) return;

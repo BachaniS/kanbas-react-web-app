@@ -1,7 +1,6 @@
-import { IoIosArrowDown } from "react-icons/io";
 import "../../styles.css"
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { TiCancel } from "react-icons/ti"
 import { deleteQuiz, updateQuiz } from "./reducer";
@@ -39,31 +38,35 @@ export default function QuizEditor() {
   const [available_until_date, setAvailableUntilDate] = useState<any>("");
   const [published, setPublished] = useState<any>(false)
 
-  const fetchQuiz = async () => {
-    const quizzes = await coursesClient.findQuizForCourse(cid as string);
-    dispatch(setQuizzes(quizzes));
-    const quiz = quizzes.find((quiz: any) => quiz._id === qid)
-    if (quiz) {
-      setPoints(quiz.points)
-      setType(quiz.type)
-      setTitle(quiz.title)
-      setDescription(quiz.description)
-      setGroup(quiz.group)
-      setShuffle(quiz.shuffle_answers)
-      setHasTimeLimit(quiz.has_time_limit)
-      setHasMulitpleAttempts(quiz.multiple_attempts)
-      setAttempts(quiz.attempts)
-      setShowCorrect(quiz.show_correct)
-      setAccessCode(quiz.access_code)
-      setOneQuestionAtATime(quiz.one_question_at_a_time)
-      setWebcamRequired(quiz.webcam_required)
-      setLockQuestions(quiz.lock_questions_after_answering)
-      setDueDate(quiz.due_date)
-      setAvailableDate(quiz.available_date)
-      setAvailableUntilDate(quiz.available_until_date)
-      setPublished(quiz.published)
-    }
-  };
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      const quizzes = await coursesClient.findQuizForCourse(cid as string);
+      dispatch(setQuizzes(quizzes));
+      const quiz = quizzes.find((quiz: any) => quiz._id === qid)
+      if (quiz) {
+        setPoints(quiz.points)
+        setType(quiz.type)
+        setTitle(quiz.title)
+        setDescription(quiz.description)
+        setGroup(quiz.group)
+        setShuffle(quiz.shuffle_answers)
+        setHasTimeLimit(quiz.has_time_limit)
+        setHasMulitpleAttempts(quiz.multiple_attempts)
+        setAttempts(quiz.attempts)
+        setShowCorrect(quiz.show_correct)
+        setAccessCode(quiz.access_code)
+        setOneQuestionAtATime(quiz.one_question_at_a_time)
+        setWebcamRequired(quiz.webcam_required)
+        setLockQuestions(quiz.lock_questions_after_answering)
+        setDueDate(quiz.due_date)
+        setAvailableDate(quiz.available_date)
+        setAvailableUntilDate(quiz.available_until_date)
+        setPublished(quiz.published)
+      }
+    };
+    fetchQuiz();
+  }, [cid, qid, dispatch]);
+  
   const removeQuiz = async (quizId: string) => {
     await quizClient.deleteQuiz(quizId);
     dispatch(deleteQuiz(quizId));
@@ -72,9 +75,7 @@ export default function QuizEditor() {
     await quizClient.updateQuiz(quiz);
     dispatch(updateQuiz(quiz));
   };
-  useEffect(() => {
-    fetchQuiz();
-  }, []);
+  
 
   const isNewQuiz = location.state?.isNewQuiz;
 
