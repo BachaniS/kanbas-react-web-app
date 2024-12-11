@@ -1,7 +1,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import "../../styles.css"
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { TiCancel } from "react-icons/ti"
 import { deleteQuiz, updateQuiz } from "./reducer";
@@ -10,8 +10,7 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import * as coursesClient from "../client"
 import { setQuizzes } from "./reducer";
 import * as quizClient from "./client"
-import Editor from 'react-simple-wysiwyg';
-
+import Editor from "react-simple-wysiwyg"
 
 export default function QuizEditor() {
   const { qid } = useParams();
@@ -39,36 +38,32 @@ export default function QuizEditor() {
   const [available_date, setAvailableDate] = useState<any>("");
   const [available_until_date, setAvailableUntilDate] = useState<any>("");
   const [published, setPublished] = useState<any>(false)
-  
-  useEffect(() => {
-    const fetchQuiz = async () => {
-      const quizzes = await coursesClient.findQuizForCourse(cid as string);
-      dispatch(setQuizzes(quizzes));
-      const quiz = quizzes.find((quiz: any) => quiz._id === qid);
-      if (quiz) {
-        setPoints(quiz.points);
-        setType(quiz.type);
-        setTitle(quiz.title);
-        setDescription(quiz.description);
-        setGroup(quiz.group);
-        setShuffle(quiz.shuffle_answers);
-        setHasTimeLimit(quiz.has_time_limit);
-        setHasMulitpleAttempts(quiz.multiple_attempts);
-        setAttempts(quiz.attempts);
-        setShowCorrect(quiz.show_correct);
-        setAccessCode(quiz.access_code);
-        setOneQuestionAtATime(quiz.one_question_at_a_time);
-        setWebcamRequired(quiz.webcam_required);
-        setLockQuestions(quiz.lock_questions_after_answering);
-        setDueDate(quiz.due_date);
-        setAvailableDate(quiz.available_date);
-        setAvailableUntilDate(quiz.available_until_date);
-        setPublished(quiz.published);
-      }
-    };
-    fetchQuiz();
-  }, [cid, qid, dispatch]);
-  
+
+  const fetchQuiz = async () => {
+    const quizzes = await coursesClient.findQuizForCourse(cid as string);
+    dispatch(setQuizzes(quizzes));
+    const quiz = quizzes.find((quiz: any) => quiz._id === qid)
+    if (quiz) {
+      setPoints(quiz.points)
+      setType(quiz.type)
+      setTitle(quiz.title)
+      setDescription(quiz.description)
+      setGroup(quiz.group)
+      setShuffle(quiz.shuffle_answers)
+      setHasTimeLimit(quiz.has_time_limit)
+      setHasMulitpleAttempts(quiz.multiple_attempts)
+      setAttempts(quiz.attempts)
+      setShowCorrect(quiz.show_correct)
+      setAccessCode(quiz.access_code)
+      setOneQuestionAtATime(quiz.one_question_at_a_time)
+      setWebcamRequired(quiz.webcam_required)
+      setLockQuestions(quiz.lock_questions_after_answering)
+      setDueDate(quiz.due_date)
+      setAvailableDate(quiz.available_date)
+      setAvailableUntilDate(quiz.available_until_date)
+      setPublished(quiz.published)
+    }
+  };
   const removeQuiz = async (quizId: string) => {
     await quizClient.deleteQuiz(quizId);
     dispatch(deleteQuiz(quizId));
@@ -77,7 +72,9 @@ export default function QuizEditor() {
     await quizClient.updateQuiz(quiz);
     dispatch(updateQuiz(quiz));
   };
-
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
 
   const isNewQuiz = location.state?.isNewQuiz;
 
@@ -104,14 +101,14 @@ export default function QuizEditor() {
       <br />
 
       <input id="wd-name" className="form-control w-50"
-        onChange={(event) => {
-          setTitle(event.target.value);
+        onChange={(e) => {
+          setTitle(e.target.value);
         }}
         value={title} /><br />
       <label className="form-check-label mb-1" htmlFor="wd-description">Quiz Instructions:</label>
       <Editor id="wd-description" className="form-control" value={description}
-        onChange={(event) => {
-          setDescription(event.target.value);
+        onChange={(e) => {
+          setDescription(e.target.value);
         }}>
       </Editor>
 
@@ -121,16 +118,13 @@ export default function QuizEditor() {
         <div className="col">
           <div className="wd-type input-group">
             <select id="wd-type" className="form-control"
-              onChange={(event) => setType(event.target.value)}
+              onChange={(e) => setType(e.target.value)}
               value={type}>
               <option value="Graded Quiz">Graded Quiz</option>
               <option value="Practice Quiz">Practice Quiz</option>
               <option value="Graded Survey">Graded Survey</option>
               <option value="Ungraded Survey">Ungraded Survey</option>
             </select>
-            <span className="input-group-text" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-              <IoIosArrowDown style={{ fontSize: '1.50rem' }} />
-            </span>
           </div>
         </div>
       </div>
@@ -140,16 +134,13 @@ export default function QuizEditor() {
         <div className="col">
           <div className="wd-group input-group">
             <select id="wd-group" className="form-control"
-              onChange={(event) => setGroup(event.target.value)}
+              onChange={(e) => setGroup(e.target.value)}
               value={group}>
               <option value="Quizzes">QUIZZES</option>
               <option value="Exams">EXAMS</option>
               <option value="Assignments">ASSIGNMENTS</option>
               <option value="Project">PROJECT</option>
             </select>
-            <span className="input-group-text" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-              <IoIosArrowDown style={{ fontSize: '1.50rem' }} />
-            </span>
           </div>
         </div>
       </div>
@@ -158,8 +149,8 @@ export default function QuizEditor() {
         <label htmlFor="wd-access-code" className="col-form-label col-3 text-end">Access Code</label>
         <div className="col">
           <input id="wd-access-code" className="form-control"
-            onChange={(event) => {
-              setAccessCode(event.target.value);
+            onChange={(e) => {
+              setAccessCode(e.target.value);
             }}
             value={accessCode} />
         </div>
@@ -169,8 +160,8 @@ export default function QuizEditor() {
         <label htmlFor="wd-points" className="col-form-label col-3 text-end">Points</label>
         <div className="col">
           <input id="wd-points" className="form-control"
-            onChange={(event) => {
-              setPoints(event.target.value);
+            onChange={(e) => {
+              setPoints(e.target.value);
             }}
             type="number"
             value={points} />
@@ -261,8 +252,8 @@ export default function QuizEditor() {
                 id="wd-time-minutes"
                 type="number"
                 className="form-control me-2 w-50"
-                onChange={(event) => {
-                  setTimeLimit(event.target.value);
+                onChange={(e) => {
+                  setTimeLimit(e.target.value);
                 }}
                 value={timeLimit}
               />
@@ -291,8 +282,8 @@ export default function QuizEditor() {
               <input
                 id="wd-attempt-nummber"
                 className="form-control me-2 w-50"
-                onChange={(event) => {
-                  setAttempts(event.target.value);
+                onChange={(e) => {
+                  setAttempts(e.target.value);
                 }}
                 value={attempts}
                 type="number"
@@ -320,8 +311,8 @@ export default function QuizEditor() {
             <input type="date"
               id="wd-due-date"
               className="form-control mb-3"
-              onChange={(event) => {
-                setDueDate(event.target.value);
+              onChange={(e) => {
+                setDueDate(e.target.value);
               }}
               value={due_date} />
           </div>
@@ -332,8 +323,8 @@ export default function QuizEditor() {
               <input type="date"
                 id="wd-available-from"
                 className="form-control mb-1"
-                onChange={(event) => {
-                  setAvailableDate(event.target.value);
+                onChange={(e) => {
+                  setAvailableDate(e.target.value);
                 }}
                 value={available_date} />
             </div>
@@ -342,8 +333,8 @@ export default function QuizEditor() {
               <input type="date"
                 id="wd-available-until"
                 className="form-control mb-1"
-                onChange={(event) => {
-                  setAvailableUntilDate(event.target.value);
+                onChange={(e) => {
+                  setAvailableUntilDate(e.target.value);
                 }}
                 value={available_until_date} />
             </div>

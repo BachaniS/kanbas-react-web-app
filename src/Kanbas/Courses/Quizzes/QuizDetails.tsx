@@ -5,13 +5,19 @@ import { FaPencil } from "react-icons/fa6";
 import * as coursesClient from "../client";
 import { useEffect, useState } from "react";
 import { setQuizzes } from "./reducer";
-import { useCallback } from "react";
 
 export default function QuizDetails() {
   const { qid } = useParams();
   const { cid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const [selectedQuiz, setSelectedQuiz] = useState<
     | {
@@ -38,15 +44,14 @@ export default function QuizDetails() {
       }
     | undefined
   >(undefined);
-  const fetchQuizzes = useCallback(async () => {
+  const fetchQuizzes = async () => {
     const quizzes = await coursesClient.findQuizForCourse(cid as string);
     dispatch(setQuizzes(quizzes));
     setSelectedQuiz(quizzes.find((quiz: any) => quiz._id === qid));
-  }, [cid, qid, dispatch]);
-
+  };
   useEffect(() => {
     fetchQuizzes();
-  }, [fetchQuizzes]);
+  }, []);
 
   return selectedQuiz ? (
     <div id="wd-assignments-editor">
@@ -227,9 +232,9 @@ export default function QuizDetails() {
         </thead>
         <tbody>
           <tr>
-            <td>{selectedQuiz.due_date}</td>
-            <td>{selectedQuiz.available_date}</td>
-            <td>{selectedQuiz.available_until_date}</td>
+            <td>{formatDate(selectedQuiz.due_date)}</td>
+            <td>{formatDate(selectedQuiz.available_date)}</td>
+            <td>{formatDate(selectedQuiz.available_until_date)}</td>
           </tr>
         </tbody>
       </table>

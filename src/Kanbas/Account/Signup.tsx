@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as client from "./client";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import * as client from "./client";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [user, setUser] = useState<any>({});
@@ -12,14 +13,15 @@ export default function Signup() {
   const signup = async () => {
     try {
       const currentUser = await client.signup(user);
-      dispatch(setCurrentUser(currentUser));
-      navigate("/Kanbas/Account/Signin");
-    } catch (error) {
-      if (error instanceof Error && (error as any).response && (error as any).response.status === 409) {
-        alert("User already exists");
+      if (currentUser) {
+        dispatch(setCurrentUser(currentUser));
+        navigate("/Kanbas/Account/Profile");
       } else {
-        alert("An error occurred during signup");
+        alert("Signup failed. Please try again.");
       }
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("An error occurred during signup. Please try again.");
     }
   };
 

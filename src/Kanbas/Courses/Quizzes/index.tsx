@@ -14,7 +14,7 @@ import EditAccessStudents from "../EditAccessStudents";
 import ContextMenu from "./ContextMenu";
 import * as coursesClient from "../client"
 import * as quizClient from "./client"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Quizzes() {
@@ -24,21 +24,27 @@ export default function Quizzes() {
     const { quizzes } = useSelector((state: any) => state.quizzesReducer);
 
     const filteredQuizzes = quizzes.filter((quiz: { course: string | undefined; }) => quiz.course === cid);
+    
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
 
     function getQuizAvailability(qid: string): string {
-        // Find the quiz by its ID
         const quiz = filteredQuizzes.find((q: { _id: string; }) => q._id === qid);
         if (!quiz) {
             return "Quiz not found";
         }
-        // Convert date strings to Date objects
         const currentDate = new Date();
-        const availableDate = new Date(quiz.available_date);
-        const availableUntilDate = new Date(quiz.available_until_date);
+        const availableDate = new Date(formatDate(quiz.available_date));
+        const availableUntilDate = new Date(formatDate(quiz.available_until_date));
 
-        // Determine availability based on the current date
         if (currentDate < availableDate) {
-            return `Not available until ${availableDate.toLocaleDateString()}`;
+            return `Not available until ${formatDate(availableDate.toLocaleDateString())}`;
         } else if (currentDate >= availableDate && currentDate <= availableUntilDate) {
             return "Available";
         } else {
@@ -46,13 +52,83 @@ export default function Quizzes() {
         }
     }
 
+    const [questionCounts, setQuestionCounts] = useState<{ [key: string]: number }>({});
+    const [scores, setScores] = useState<{ [key: string]: string }>({});
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
+    const [quizAnswers, setQuizAnswers] = useState<any[]>([]);
+
+    const fetchQuestionNumber = async (qid: string) => {
+        const questions = await quizClient.findQuestionForQuiz(qid);
+        return questions.length;
+    };
+
+    const prepareNewAnswers = async (qid: string) => {
+        const results = await quizClient.findQuestionForQuiz(qid);
+        setQuizQuestions(results);
+        var resultAnswers = await quizClient.getLatestAnswersForQuiz(
+            qid,
+            currentUser._id
+        );
+
+        resultAnswers.sort((ans1: any, ans2: any) => ans1.sequence - ans2.sequence);
+        setQuizAnswers(resultAnswers);
+    };
+
+    const calculateScore = async (qid: string) => {
+        const [questions, answers] = await Promise.all([
+            quizClient.findQuestionForQuiz(qid),
+            quizClient.getLatestAnswersForQuiz(qid, currentUser._id),
+        ]);
+
+        answers.sort((a: any, b: any) => a.sequence - b.sequence);
+
+        let correctScore = 0;
+        let totalScore = 0;
+
+        answers.forEach((answer: any) => {
+            const matchedQuestion = questions.find((q: any) => q.sequence === answer.sequence);
+
+            if (matchedQuestion) {
+                const points = parseInt(matchedQuestion.points || "0", 10);
+                totalScore += points;
+                if (answer.correct) {
+                    correctScore += points;
+                }
+            }
+        });
+
+        return totalScore > 0 ? `${((correctScore / totalScore) * 100).toFixed(2)}%` : "0%";
+    };
+
     useEffect(() => {
-        const fetchQuizzes = async () => {
-            const quizzes = await coursesClient.findQuizForCourse(cid as string);
-            dispatch(setQuizzes(quizzes));
+        const fetchAllQuestionCounts = async () => {
+            const counts: { [key: string]: number } = {};
+            for (const quiz of quizzes) {
+                counts[quiz._id] = await fetchQuestionNumber(quiz._id);
+            }
+            setQuestionCounts(counts);
         };
+
+        const fetchAllScores = async () => {
+            const scores: { [key: string]: string } = {};
+            for (const quiz of quizzes) {
+                scores[quiz._id] = await calculateScore(quiz._id);
+            }
+            setScores(scores);
+        };
+
+        fetchAllScores();
+        fetchAllQuestionCounts();
+    }, [quizzes]); 
+
+    const fetchQuizzes = async () => {
+        const quizzes = await coursesClient.findQuizForCourse(cid as string);
+        dispatch(setQuizzes(quizzes));
+    };
+    useEffect(() => {
         fetchQuizzes();
-    }, [cid, dispatch]);
+    }, []);
 
     const createQuizForCourse = async () => {
         if (!cid) return;
@@ -129,9 +205,9 @@ export default function Quizzes() {
 
                     <EditAccess>
                         <ul className="wd-assignments list-group rounded-0 ">
-                            {filteredQuizzes.length===0 ? 
-                            <p className=" text-secondary border-none m-2">Click "+ Quiz" to create a new quiz</p>
-                            : <></>}
+                            {filteredQuizzes.length === 0 ?
+                                <p className=" text-secondary border-none m-2">Click "+ Quiz" to create a new quiz</p>
+                                : <></>}
                             {filteredQuizzes.map((quiz: {
                                 _id: string;
                                 title: string;
@@ -156,25 +232,25 @@ export default function Quizzes() {
                                 published: boolean;
                             }) => {
                                 const modalId = `modal-${quiz._id}`;
-                                return(
-                                <li className="wd-assignment-link list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
-                                    key={quiz._id}>
-                                    <button
-                                        onClick={() => {
-                                            navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`, { state: { isNewQuiz: false } });
-                                        }}
-                                        className="wd-assignment text-reset text-decoration-none d-flex align-items-center btn btn-link text-start">
-                                        <BsGripVertical className="me-4 fs-3" />
-                                        <TfiWrite className="me-4 fs-3 text-success" />
-                                        <span className="wd-assignment-text me-2">
-                                            <b>{quiz.title}</b>
-                                            <br />
-                                            <span className="text-danger"> <b>{getQuizAvailability(quiz._id)}</b> </span> | {123} Questions <br />
-                                            <b> Due</b> {quiz.due_date} | {quiz.points} pts
-                                        </span>
-                                    </button>
-                                    <div className="d-flex align-items-center">
-                                        <div className="float-end">
+                                return (
+                                    <li className="wd-assignment-link list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
+                                        key={quiz._id}>
+                                        <button
+                                            onClick={() => {
+                                                navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`, { state: { isNewQuiz: false } });
+                                            }}
+                                            className="wd-assignment text-reset text-decoration-none d-flex align-items-center btn btn-link text-start">
+                                            <BsGripVertical className="me-4 fs-3" />
+                                            <TfiWrite className="me-4 fs-3 text-success" />
+                                            <span className="wd-assignment-text me-2">
+                                                <b>{quiz.title}</b>
+                                                <br />
+                                                <span className="text-danger"> <b>{getQuizAvailability(quiz._id)}</b> </span> | {questionCounts[quiz._id]} Questions <br />
+                                                <b> Due</b> {formatDate(quiz.due_date)} | {quiz.points} pts
+                                            </span>
+                                        </button>
+                                        <div className="d-flex align-items-center">
+                                            <div className="float-end">
                                                 <button className="btn btn-default p-0"
                                                     onClick={() => {
                                                         saveQuiz({
@@ -185,22 +261,17 @@ export default function Quizzes() {
                                                     }>
                                                     {!quiz.published ? <TiCancel className="fs-3" /> : <GreenCheckmark />}
                                                 </button>
-                                            <button id={`context-menu-btn-${quiz._id}`}
-                                                className="btn btn-default ms-2 fs-5"
-                                                data-bs-toggle="modal" data-bs-target={`#modal-${quiz._id}`}>
-                                                <IoEllipsisVertical className="fs-4" />
-                                            </button>
+                                                <button id={`context-menu-btn-${quiz._id}`}
+                                                    className="btn btn-default ms-2 fs-5"
+                                                    data-bs-toggle="modal" data-bs-target={`#modal-${quiz._id}`}>
+                                                    <IoEllipsisVertical className="fs-4" />
+                                                </button>
+                                            </div>
+                                            <ContextMenu dialogTitle={`Quiz Context Menu`} modalId={modalId} quiz={quiz} />
                                         </div>
-                                        {/* <button id="wd-delete-assignment-btn"
-                                            className="btn btn-link ms-2 fs-5"
-                                            data-bs-toggle="modal" data-bs-target="#wd-add-module-dialog">
-                                            <FaTrash />
-                                        </button> */}
-                                        
-                                        <ContextMenu dialogTitle={`Quiz Context Menu`} modalId={modalId} quiz={quiz} />
-                                    </div>
-                                </li>
-                            )})}
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </EditAccess>
                     <EditAccessStudents>
@@ -230,7 +301,7 @@ export default function Quizzes() {
                             }) =>
                                 quiz.published ? (
                                     <li
-                                        key={quiz._id} // Always include a unique key in lists
+                                        key={quiz._id}
                                         className="wd-assignment-link list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
                                         <button
                                             onClick={() => {
@@ -242,8 +313,8 @@ export default function Quizzes() {
                                             <span className="wd-assignment-text me-2">
                                                 <b>{quiz.title}</b>
                                                 <br />
-                                                <span className="text-danger"> <b>{getQuizAvailability(quiz._id)}</b> </span> | {123} Questions <br />
-                                                <b> Due</b> {quiz.due_date} | {quiz.points} pts | Score {95}
+                                                <span className="text-danger"> <b>{getQuizAvailability(quiz._id)}</b> </span> | {questionCounts[quiz._id]} Questions <br />
+                                                <b> Due</b> {formatDate(quiz.due_date)} | {quiz.points} pts | Score {scores[quiz._id]}
                                             </span>
                                         </button>
                                         <div className="d-flex align-items-center">
@@ -256,7 +327,6 @@ export default function Quizzes() {
                                 ) : null 
                             )}
                         </ul>
-
                     </EditAccessStudents>
                 </li>
             </ul>

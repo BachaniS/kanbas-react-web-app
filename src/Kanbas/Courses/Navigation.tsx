@@ -12,7 +12,8 @@ export default function CoursesNavigation() {
     { name: "Zoom", path: "Zoom" },
     { name: "Assignments", path: "Assignments" },
     { name: "Quizzes", path: "Quizzes" },
-    { name: "People", path: "People" }
+    { name: "People", path: "People" },
+    { name: "Grades", path: "Grades" }
   ];
 
   return (

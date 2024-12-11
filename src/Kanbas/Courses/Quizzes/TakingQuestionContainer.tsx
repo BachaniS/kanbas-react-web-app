@@ -17,10 +17,13 @@ export default function TakingQuestionContainer({
 }) {
   return (
     <>
+      {/* Header */}
       <div
         className={`w-75 p-2 pt-3 border d-flex flex-row justify-content-between align-items-center ${
-          corrections ? (questionAnswer.correct ? "bg-success" : "bg-danger") : "bg-secondary"
-        }`}
+          corrections && questionAnswer.correct && "bg-success"
+        } 
+      ${corrections && !questionAnswer.correct && "bg-danger"}
+      ${!corrections && "bg-secondary"}`}
       >
         <h4 className={`${corrections && "text-white"}`}>{question.title}</h4>
         <h5 className={`${corrections && "text-white"}`}>
@@ -99,23 +102,17 @@ export default function TakingQuestionContainer({
                         if (e.target.checked) {
                           updateAnswer({
                             ...questionAnswer,
-                            answer: [...questionAnswer.answer, choice],
+                            answer: [choice],
                             quiz_question: question._id,
-                            correct: questionAnswer.answer.every(
-                              (ans: string) => question.answers.includes(ans)
-                            ),
+                            correct: question.answers.includes(choice),
                             sequence: questionIndex,
                           });
                         } else {
                           updateAnswer({
                             ...questionAnswer,
-                            answer: questionAnswer.answer.filter(
-                              (a: any) => a !== choice
-                            ),
+                            answer: [],
                             quiz_question: question._id,
-                            correct: questionAnswer.answer.every(
-                              (ans: string) => question.answers.includes(ans)
-                            ),
+                            correct: false,
                             sequence: questionIndex,
                           });
                         }
