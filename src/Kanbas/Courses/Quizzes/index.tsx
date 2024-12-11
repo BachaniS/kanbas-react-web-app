@@ -24,15 +24,13 @@ export default function Quizzes() {
     const { quizzes } = useSelector((state: any) => state.quizzesReducer);
 
     const filteredQuizzes = quizzes.filter((quiz: { course: string | undefined; }) => quiz.course === cid);
-    
-
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
-      };
+    };
 
     function getQuizAvailability(qid: string): string {
         const quiz = filteredQuizzes.find((q: { _id: string; }) => q._id === qid);
@@ -55,41 +53,41 @@ export default function Quizzes() {
     const [questionCounts, setQuestionCounts] = useState<{ [key: string]: number }>({});
     const [scores, setScores] = useState<{ [key: string]: string }>({});
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-   
+
 
     const fetchQuestionNumber = async (qid: string) => {
         const questions = await quizClient.findQuestionForQuiz(qid);
         return questions.length;
     };
 
-   
-    const calculateScore = async (qid: string) => {
-        const [questions, answers] = await Promise.all([
-            quizClient.findQuestionForQuiz(qid),
-            quizClient.getLatestAnswersForQuiz(qid, currentUser._id),
-        ]);
-
-        answers.sort((a: any, b: any) => a.sequence - b.sequence);
-
-        let correctScore = 0;
-        let totalScore = 0;
-
-        answers.forEach((answer: any) => {
-            const matchedQuestion = questions.find((q: any) => q.sequence === answer.sequence);
-
-            if (matchedQuestion) {
-                const points = parseInt(matchedQuestion.points || "0", 10);
-                totalScore += points;
-                if (answer.correct) {
-                    correctScore += points;
-                }
-            }
-        });
-
-        return totalScore > 0 ? `${((correctScore / totalScore) * 100).toFixed(2)}%` : "0%";
-    };
 
     useEffect(() => {
+        const calculateScore = async (qid: string) => {
+            const [questions, answers] = await Promise.all([
+                quizClient.findQuestionForQuiz(qid),
+                quizClient.getLatestAnswersForQuiz(qid, currentUser._id),
+            ]);
+
+            answers.sort((a: any, b: any) => a.sequence - b.sequence);
+
+            let correctScore = 0;
+            let totalScore = 0;
+
+            answers.forEach((answer: any) => {
+                const matchedQuestion = questions.find((q: any) => q.sequence === answer.sequence);
+
+                if (matchedQuestion) {
+                    const points = parseInt(matchedQuestion.points || "0", 10);
+                    totalScore += points;
+                    if (answer.correct) {
+                        correctScore += points;
+                    }
+                }
+            });
+
+            return totalScore > 0 ? `${((correctScore / totalScore) * 100).toFixed(2)}%` : "0%";
+        };
+
         const fetchAllQuestionCounts = async () => {
             const counts: { [key: string]: number } = {};
             for (const quiz of quizzes) {
@@ -108,7 +106,7 @@ export default function Quizzes() {
 
         fetchAllScores();
         fetchAllQuestionCounts();
-    }, [quizzes]); 
+    }, [quizzes, currentUser._id]);
 
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -312,7 +310,7 @@ export default function Quizzes() {
                                             </div>
                                         </div>
                                     </li>
-                                ) : null 
+                                ) : null
                             )}
                         </ul>
                     </EditAccessStudents>
