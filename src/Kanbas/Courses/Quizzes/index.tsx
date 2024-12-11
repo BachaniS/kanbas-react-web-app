@@ -55,32 +55,14 @@ export default function Quizzes() {
     const [questionCounts, setQuestionCounts] = useState<{ [key: string]: number }>({});
     const [scores, setScores] = useState<{ [key: string]: string }>({});
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
-    const [quizAnswers, setQuizAnswers] = useState<any[]>([]);
+   
 
     const fetchQuestionNumber = async (qid: string) => {
         const questions = await quizClient.findQuestionForQuiz(qid);
         return questions.length;
     };
 
-    const prepareNewAnswers = async (qid: string) => {
-        const results = await quizClient.findQuestionForQuiz(qid);
-        setQuizQuestions(results);
-        var resultAnswers = await quizClient.getLatestAnswersForQuiz(
-            qid,
-            currentUser._id
-        );
-
-        resultAnswers.sort((ans1: any, ans2: any) => ans1.sequence - ans2.sequence);
-        setQuizAnswers(resultAnswers);
-    };
-
-    useEffect(() => {
-        console.log(quizQuestions);
-        console.log(quizAnswers);
-        prepareNewAnswers("mockQuizId");
-    }, []);
-
+   
     const calculateScore = async (qid: string) => {
         const [questions, answers] = await Promise.all([
             quizClient.findQuestionForQuiz(qid),
